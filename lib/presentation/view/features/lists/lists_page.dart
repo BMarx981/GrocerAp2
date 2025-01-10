@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grocerapp/application/lists_providers/lists_providers.dart';
 import 'package:grocerapp/domain/repository/lists_repository.dart';
 import 'package:grocerapp/presentation/common_widgets/textformfield_widget.dart';
+import 'package:grocerapp/presentation/view/features/app_bar/app_bar.dart';
 import 'package:grocerapp/presentation/view/features/bottom_nav_bar/bottom_nav_bar_widget.dart';
 import 'package:grocerapp/presentation/common_widgets/add_item_dialog.dart';
 import 'package:grocerapp/presentation/view/features/lists/shopping_list_widget.dart';
@@ -16,11 +17,8 @@ class ListsPage extends ConsumerWidget {
     final listsProviderData = ref.watch(listsProvider);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Shopping Lists"),
-        shadowColor: Colors.black,
-        elevation: 8,
-        scrolledUnderElevation: null,
+      appBar: const GrocerAppbar(
+        title: "Shopping Lists",
       ),
       body: Row(
         children: [
@@ -39,7 +37,7 @@ class ListsPage extends ConsumerWidget {
                             onPressed: () {
                               showDialog(
                                 context: context,
-                                builder: (context) => AddItemWidget(),
+                                builder: (context) => const AddItemWidget(),
                               );
                             },
                             child: const Text("Add grocery item"),

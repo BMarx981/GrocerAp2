@@ -1,3 +1,4 @@
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grocerapp/data/source/database/database.dart';
@@ -13,7 +14,6 @@ class DetailsTileWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    List<GroceryItemData> details = [];
     return Dismissible(
       key: UniqueKey(),
       onDismissed: (_) {
@@ -29,16 +29,11 @@ class DetailsTileWidget extends ConsumerWidget {
             ],
           ),
         ),
-        child: ExpansionTile(
-          onExpansionChanged: (value) async {
-            // details = await ref
-            //     .watch(listsRepositoryProvider.notifier)
-            //     .fetchGroceryItemsForList(data.listId ?? 0);
-          },
+        child: ListTile(
           iconColor: Colors.white,
-          collapsedIconColor: Colors.white,
           title: GestureDetector(
-            onTap: () {},
+            onTap: () => Beamer.of(context)
+                .beamToNamed('/shopping_list_detail', popToNamed: '/dashboard'),
             child: Text(
               data.name!,
               style: const TextStyle(
@@ -46,26 +41,6 @@ class DetailsTileWidget extends ConsumerWidget {
               ),
             ),
           ),
-          children: [
-            Column(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: 3,
-                    itemBuilder: (context, index) {
-                      return const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [Text("Grocery Item name")],
-                        ),
-                      );
-                    },
-                  ),
-                )
-              ],
-            )
-          ],
         ),
       ),
     );

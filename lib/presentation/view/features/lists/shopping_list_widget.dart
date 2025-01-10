@@ -17,21 +17,25 @@ class ShoppinglistWidget extends ConsumerWidget {
         return Expanded(
             child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: ListView.separated(
+          child: ListView.builder(
             itemCount: data.length,
             itemBuilder: (context, index) {
-              return Row(
-                children: [
-                  Expanded(child: DetailsTileWidget(data: data[index])),
-                  IconButton(
-                    icon: const Icon(Icons.add),
-                    onPressed: () {},
-                  )
-                ],
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Expanded(child: DetailsTileWidget(data: data[index])),
+                    IconButton(
+                      icon: const Icon(Icons.add),
+                      onPressed: () {
+                        showDialog(
+                            context: context, builder: (ctx) => Container());
+                      },
+                    )
+                  ],
+                ),
               );
             },
-            separatorBuilder: (BuildContext context, int index) =>
-                const Divider(),
           ),
         ));
       },

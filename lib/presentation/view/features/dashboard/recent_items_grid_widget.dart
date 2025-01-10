@@ -38,7 +38,7 @@ class RecentItemsGridWidget extends ConsumerWidget {
                               addFunction: () {
                                 showDialog(
                                   context: context,
-                                  builder: (context) => AddItemWidget(),
+                                  builder: (context) => const AddItemWidget(),
                                 );
                               }),
                           Expanded(
