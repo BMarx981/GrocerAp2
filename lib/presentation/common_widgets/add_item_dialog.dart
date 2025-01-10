@@ -4,13 +4,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grocerapp/domain/repository/grocery_item_repository.dart';
 import 'package:grocerapp/presentation/common_widgets/textformfield_widget.dart';
 
-class AddItemWidget extends StatelessWidget {
+class AddItemWidget extends StatefulWidget {
+  const AddItemWidget({super.key});
+
+  @override
+  State<AddItemWidget> createState() => _AddItemWidgetState();
+}
+
+class _AddItemWidgetState extends State<AddItemWidget> {
   final TextEditingController nameController = TextEditingController();
+
   final TextEditingController priceController = TextEditingController();
+
   final TextEditingController quantityController = TextEditingController();
+
   final TextEditingController storeController = TextEditingController();
 
-  AddItemWidget({super.key});
   @override
   Widget build(BuildContext context) {
     return Consumer(
@@ -25,7 +34,7 @@ class AddItemWidget extends StatelessWidget {
               hint: 'Tap this button to clear all the fields',
               child: ElevatedButton(
                   key: const Key('clear_item_button'),
-                  onPressed: () => _clearFields,
+                  onPressed: _clearFields,
                   child: const Text("Clear")),
             ),
             Semantics(
@@ -102,5 +111,6 @@ class AddItemWidget extends StatelessWidget {
     priceController.clear();
     quantityController.clear();
     storeController.clear();
+    setState(() {});
   }
 }

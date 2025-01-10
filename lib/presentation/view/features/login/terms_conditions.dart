@@ -17,6 +17,9 @@ Widget showTermsAlertDialog(BuildContext context) {
       actions: [
         ElevatedButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text("Dismiss"))
+            child: const Text(
+              "Dismiss",
+              style: TextStyle(color: Colors.black),
+            ))
       ]);
 }
