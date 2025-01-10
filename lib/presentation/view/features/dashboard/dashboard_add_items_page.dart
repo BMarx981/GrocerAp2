@@ -64,19 +64,22 @@ class ListOfItemsWidget extends ConsumerWidget {
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, stackTrace) => ErrorMessageWidget(e.toString()),
         data: (data) {
-          return Container(
-            decoration: BoxDecoration(color: Colors.grey.shade300),
-            child: ListView.builder(
-                itemCount: data.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                      child: Text(data[index].name!),
-                      onTap: () {
-                        // ref
-                        //     .read(listsRepositoryProvider.notifier)
-                        //     .addToShoppingList(listId, name);
-                      });
-                }),
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(color: Colors.grey.shade300),
+              child: ListView.builder(
+                  itemCount: data.length,
+                  itemBuilder: (context, index) {
+                    return ElevatedButton(
+                        child: Text(data[index].name!),
+                        onPressed: () {
+                          ref
+                              .read(listsRepositoryProvider.notifier)
+                              .addToShoppingList(listId, name);
+                        });
+                  }),
+            ),
           );
         });
   }

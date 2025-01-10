@@ -5,7 +5,6 @@ import 'package:grocerapp/domain/repository/lists_repository.dart';
 import 'package:grocerapp/presentation/common_widgets/textformfield_widget.dart';
 import 'package:grocerapp/presentation/view/features/app_bar/app_bar.dart';
 import 'package:grocerapp/presentation/view/features/bottom_nav_bar/bottom_nav_bar_widget.dart';
-import 'package:grocerapp/presentation/common_widgets/add_item_dialog.dart';
 import 'package:grocerapp/presentation/view/features/lists/shopping_list_widget.dart';
 
 class ListsPage extends ConsumerWidget {
@@ -32,21 +31,7 @@ class ListsPage extends ConsumerWidget {
                     children: [
                       Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => const AddItemWidget(),
-                              );
-                            },
-                            child: const Text("Add grocery item"),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(12.0),
                           child: ElevatedButton(
                               onPressed: () {
                                 ref
@@ -72,27 +57,35 @@ class ListsPage extends ConsumerWidget {
                                 border: Border.all(color: Colors.black45)),
                             child: Padding(
                               padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
-                              child: CustomTextformField(
-                                label: "Shopping list name",
-                                controller: newListController,
+                              child: Stack(
+                                alignment: AlignmentDirectional.centerEnd,
+                                children: [
+                                  CustomTextformField(
+                                    label: "Shopping list name",
+                                    controller: newListController,
+                                  ),
+                                  Positioned(
+                                    child: IconButton(
+                                        onPressed: () {
+                                          ref
+                                              .read(listsRepositoryProvider
+                                                  .notifier)
+                                              .addList(newListController.text);
+                                          ref
+                                              .read(listsProvider.notifier)
+                                              .toggleTextField();
+                                          newListController.clear();
+                                        },
+                                        icon: const Icon(
+                                          Icons.add,
+                                          color: Colors.black,
+                                        )),
+                                  )
+                                ],
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: IconButton(
-                            onPressed: () {
-                              ref
-                                  .read(listsRepositoryProvider.notifier)
-                                  .addList(newListController.text);
-                              ref
-                                  .read(listsProvider.notifier)
-                                  .toggleTextField();
-                              newListController.clear();
-                            },
-                            icon: const Icon(Icons.add)),
                       ),
                     ],
                   ),

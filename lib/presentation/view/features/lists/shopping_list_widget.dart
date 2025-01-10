@@ -22,18 +22,7 @@ class ShoppinglistWidget extends ConsumerWidget {
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Expanded(child: DetailsTileWidget(data: data[index])),
-                    IconButton(
-                      icon: const Icon(Icons.add),
-                      onPressed: () {
-                        showDialog(
-                            context: context, builder: (ctx) => Container());
-                      },
-                    )
-                  ],
-                ),
+                child: DetailsTileWidget(data: data[index]),
               );
             },
           ),
