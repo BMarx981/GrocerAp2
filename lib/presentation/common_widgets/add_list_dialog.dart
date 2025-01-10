@@ -16,28 +16,40 @@ class AddListWidget extends StatelessWidget {
           shadowColor: Colors.black45,
           title: const Text("Add List"),
           actions: [
-            ElevatedButton(
-                key: const Key('clear_list_button'),
-                onPressed: () => _clearFields,
-                child: const Text("Clear")),
-            ElevatedButton(
-                key: const Key('add_list_button'),
-                onPressed: () {
-                  ref
-                      .read(listsRepositoryProvider.notifier)
-                      .addList(nameController.text);
-                  Navigator.pop(context);
-                },
-                child: const Text("Submit")),
+            Semantics(
+              label: 'Clear textfields',
+              hint: 'Clear the text entered in all textfields',
+              child: ElevatedButton(
+                  key: const Key('clear_list_button'),
+                  onPressed: () => _clearFields,
+                  child: const Text("Clear")),
+            ),
+            Semantics(
+              label: 'Add list button',
+              hint: 'Add a list',
+              child: ElevatedButton(
+                  key: const Key('add_list_button'),
+                  onPressed: () {
+                    ref
+                        .read(listsRepositoryProvider.notifier)
+                        .addList(nameController.text);
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Submit")),
+            ),
           ],
           content: Form(
             key: const Key('add_list_form'),
             child: Column(
               children: [
-                CustomTextformField(
-                  key: const Key('add_list_name_field'),
-                  label: "List Name",
-                  controller: nameController,
+                Semantics(
+                  label: 'Add a list name',
+                  hint: 'Type in the name of the list in this textfields',
+                  child: CustomTextformField(
+                    key: const Key('add_list_name_field'),
+                    label: "List Name",
+                    controller: nameController,
+                  ),
                 ),
                 // ListView.builder(
                 //     itemBuilder: (context, index) {

@@ -7,8 +7,7 @@ class ErrorMessageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       errorMessage,
-      style:
-          TextStyle(color: Colors.red),
+      style: const TextStyle(color: Colors.red),
     );
   }
 }

@@ -17,15 +17,15 @@ class DetailsTileWidget extends ConsumerWidget {
     return Dismissible(
       key: UniqueKey(),
       onDismissed: (_) {
-        ref.read(listsRepositoryProvider.notifier).deleteList(data.id!);
+        ref.read(listsRepositoryProvider.notifier).deleteList(data.id);
       },
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
           gradient: LinearGradient(
             colors: [
-              Colors.black.withOpacity(0.5),
-              Colors.black45.withOpacity(0.2)
+              Colors.black.withValues(alpha: .5),
+              Colors.black45.withValues(alpha: .2)
             ],
           ),
         ),

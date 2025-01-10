@@ -16,29 +16,41 @@ class AddRecipeWidget extends StatelessWidget {
           shadowColor: Colors.black45,
           title: const Text("Add Recipe"),
           actions: [
-            ElevatedButton(
-                key: const Key('clear_item_button'),
-                onPressed: () => _clearFields,
-                child: const Text("Clear")),
-            ElevatedButton(
-                key: const Key('add_item_button'),
-                onPressed: () {
-                  ref
-                      .read(recipeRepositoryProvider.notifier)
-                      .addRecipe(name: nameController.text);
+            Semantics(
+              label: 'Clear textfields',
+              hint: 'Clear the text entered in all textfields',
+              child: ElevatedButton(
+                  key: const Key('clear_item_button'),
+                  onPressed: () => _clearFields,
+                  child: const Text("Clear")),
+            ),
+            Semantics(
+              label: 'Add item button',
+              hint: 'Add an item by tapping this button',
+              child: ElevatedButton(
+                  key: const Key('add_item_button'),
+                  onPressed: () {
+                    ref
+                        .read(recipeRepositoryProvider.notifier)
+                        .addRecipe(name: nameController.text);
 
-                  Navigator.pop(context);
-                },
-                child: const Text("Submit")),
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Submit")),
+            ),
           ],
           content: Form(
             key: const Key('add_recipe_form'),
             child: Column(
               children: [
-                CustomTextformField(
-                  key: const Key('add_recipe_name_field'),
-                  label: "Recipe Name",
-                  controller: nameController,
+                Semantics(
+                  label: 'Recipe name',
+                  hint: 'Enter the name of the recipe in this textfield',
+                  child: CustomTextformField(
+                    key: const Key('add_recipe_name_field'),
+                    label: "Recipe Name",
+                    controller: nameController,
+                  ),
                 ),
               ],
             ),
