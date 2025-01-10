@@ -58,7 +58,7 @@ class RecentListsGridWidget extends ConsumerWidget {
                                   child: GestureDetector(
                                     onTap: () {
                                       Beamer.of(context).beamToNamed(
-                                        '/shopping_list_detail',
+                                        '/lists',
                                         data: data[index],
                                         popToNamed: '/dashboard',
                                         transitionDelegate:

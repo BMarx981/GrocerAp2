@@ -32,8 +32,8 @@ class DetailsTileWidget extends ConsumerWidget {
         child: ListTile(
           iconColor: Colors.white,
           title: GestureDetector(
-            onTap: () => Beamer.of(context)
-                .beamToNamed('/shopping_list_detail', popToNamed: '/dashboard'),
+            onTap: () => Beamer.of(context).beamToNamed('/shopping_list_detail',
+                popToNamed: '/lists', data: data),
             child: Text(
               data.name!,
               style: const TextStyle(

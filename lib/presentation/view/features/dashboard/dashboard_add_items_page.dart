@@ -18,9 +18,9 @@ class AddItemsPage extends ConsumerWidget {
           children: [
             Expanded(
                 child: ListOfItemsWidget(
-                    listId: listData.id ?? 0, name: listData.name!)),
+                    listId: listData.id, name: listData.name!)),
             Expanded(
-              child: ListOfSelectedItems(listId: listData.id ?? 0),
+              child: ListOfSelectedItems(listId: listData.id),
             )
           ],
         ));

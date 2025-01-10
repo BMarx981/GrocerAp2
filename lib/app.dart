@@ -20,8 +20,9 @@ class App extends StatelessWidget {
       '/recipes': (context, state, data) => const RecipesPage(),
       '/add_items_to_list': (context, state, data) =>
           AddItemsPage(listData: data as ShoppingListData),
-      '/shopping_list_detail': (context, state, data) =>
-          const ShoppingListDetailView(),
+      '/shopping_list_detail': (context, state, data) => ShoppingListDetailView(
+            data: data as ShoppingListData,
+          ),
     }).call,
   );
   // This widget is the root of your application.
@@ -35,8 +36,11 @@ class App extends StatelessWidget {
         ),
         routeInformationParser: BeamerParser(),
         routerDelegate: routerDelegate,
-        backButtonDispatcher:
-            BeamerBackButtonDispatcher(delegate: routerDelegate),
+        backButtonDispatcher: BeamerBackButtonDispatcher(
+          delegate: routerDelegate,
+          alwaysBeamBack: true,
+          fallbackToBeamBack: false,
+        ),
       ),
     );
   }
