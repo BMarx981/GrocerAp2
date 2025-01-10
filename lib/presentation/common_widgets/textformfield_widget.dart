@@ -39,7 +39,10 @@ class CustomTextformField extends StatelessWidget {
         return null;
       },
       decoration: InputDecoration(
-        label: Text(label),
+        label: Text(
+          label,
+          style: const TextStyle(color: Colors.black),
+        ),
         border: const UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.blue),
         ),

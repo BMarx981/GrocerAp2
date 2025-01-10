@@ -78,7 +78,7 @@ class LoginSection extends ConsumerWidget {
                       key: const Key("login_submit_button"),
                       child: Text("Submit",
                           style: provider
-                              ? const TextStyle(color: Colors.blue)
+                              ? const TextStyle(color: Colors.black)
                               : const TextStyle(color: Colors.grey)),
                       onPressed: () {
                         if (formkey.currentState!.validate()) {
@@ -108,61 +108,62 @@ class LoginSection extends ConsumerWidget {
     if (password == "") return "Please enter a valid password";
     return null;
   }
+}
 
-  Widget _termAndConditionsRow(
-      bool checked, WidgetRef ref, BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: [
-          Checkbox(
-              key: const Key('login_term_check'),
-              value: checked,
-              onChanged: (value) {
-                ref
-                    .read(loginTermsNotifierProviderProvider.notifier)
-                    .checkBoxSelected();
-              }),
-          RichText(
-            text: TextSpan(
-              children: [
-                const TextSpan(
-                  text: 'Please agree to our ',
-                  style: TextStyle(color: Colors.black),
-                ),
-                TextSpan(
-                  text: 'terms and conditions',
-                  style: const TextStyle(color: Colors.blue),
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => showTermsAlertDialog(context),
-                      );
-                    },
-                ),
-              ],
-            ),
+Widget _termAndConditionsRow(
+    bool checked, WidgetRef ref, BuildContext context) {
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Row(
+      children: [
+        Checkbox(
+            key: const Key('login_term_check'),
+            value: checked,
+            onChanged: (value) {
+              ref
+                  .read(loginTermsNotifierProviderProvider.notifier)
+                  .checkBoxSelected();
+            }),
+        RichText(
+          text: TextSpan(
+            children: [
+              const TextSpan(
+                text: 'Please agree to our ',
+                style: TextStyle(color: Colors.black),
+              ),
+              TextSpan(
+                text: 'terms and conditions',
+                style: const TextStyle(color: Colors.blue),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => showTermsAlertDialog(context),
+                    );
+                  },
+              ),
+            ],
           ),
-        ],
-      ),
-    );
-  }
+        ),
+      ],
+    ),
+  );
+}
 
-  Widget _titleRow() {
-    return const Expanded(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            "LOGIN",
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.w400,
-            ),
-          )
-        ],
-      ),
-    );
-  }
+Widget _titleRow() {
+  return const Expanded(
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          "LOGIN",
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.w400,
+            color: Colors.black,
+          ),
+        )
+      ],
+    ),
+  );
 }
