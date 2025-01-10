@@ -28,8 +28,8 @@ class LoginSection extends ConsumerWidget {
                 color: Colors.white,
               ),
               gradient: LinearGradient(colors: [
-                Colors.white.withOpacity(0.5),
-                Colors.white.withOpacity(0.8)
+                Colors.white.withValues(alpha: .5),
+                Colors.white.withValues(alpha: .8)
               ])),
           child: Form(
             key: formkey,
