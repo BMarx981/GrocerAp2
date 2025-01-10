@@ -13,6 +13,7 @@ dependencies:
   beamer: ^1.6.0
   cupertino_icons: ^1.0.2
   drift: ^2.15.0
+  drift_flutter: ^0.2.4
   flutter_riverpod: ^2.4.9
   logger: ^2.0.2+1
   path_provider: ^2.1.2

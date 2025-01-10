@@ -19,18 +19,10 @@ class GroceryItems extends Table {
   TextColumn get location => text().nullable()();
 }
 
-@DataClassName('RecipeData')
+@DataClassName('RecipesData')
 class Recipes extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text().customConstraint('UNIQUE').nullable()();
-}
-
-@DataClassName('ListRefData')
-class ListRef extends Table {
-  IntColumn get listId =>
-      integer().customConstraint('REFERENCES shopping_lists(id)').nullable()();
-  IntColumn get itemId =>
-      integer().customConstraint('REFERENCES grocery_items(id)').nullable()();
 }
 
 @DataClassName('ShoppingListData')
@@ -39,19 +31,31 @@ class ShoppingLists extends Table {
   TextColumn get name => text().nullable()();
 }
 
-@DataClassName('RecipeGroceryItemData')
-class RecipeGroceryItems extends Table {
-  IntColumn get recipeId =>
-      integer().customConstraint('REFERENCES recipes(id)').nullable()();
+@DataClassName('ShoppingListItemsData')
+class ShoppingListItems extends Table {
+  IntColumn get id => integer().autoIncrement()();
   IntColumn get groceryItemId =>
-      integer().customConstraint('REFERENCES grocery_items(id)').nullable()();
-
-  @override
-  Set<Column> get primaryKey => {recipeId, groceryItemId};
+      integer().references(GroceryItems, #id)(); // Foreign key to GroceryItems
+  IntColumn get shoppingListId => integer()
+      .references(ShoppingLists, #id)(); // Foreign key to ShoppingLists
 }
 
-@DriftDatabase(
-    tables: [GroceryItems, RecipeGroceryItems, Recipes, ShoppingLists])
+@DataClassName('RecipeIngredientsData')
+class RecipeIngredients extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get groceryItemId =>
+      integer().references(GroceryItems, #id)(); // Foreign key to GroceryItems
+  IntColumn get recipeId =>
+      integer().references(Recipes, #id)(); // Foreign key to ShoppingLists
+}
+
+@DriftDatabase(tables: [
+  GroceryItems,
+  RecipeIngredients,
+  Recipes,
+  ShoppingLists,
+  ShoppingListItems
+])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
@@ -65,7 +69,6 @@ LazyDatabase _openConnection() {
   return LazyDatabase(() async {
     final dbFolder = await getApplicationDocumentsDirectory();
     final file = File(p.join(dbFolder.path, 'db.sqlite'));
-    print(file.toString());
 
     if (Platform.isAndroid) {
       await applyWorkaroundToOpenSqlite3OnOldAndroidVersions();

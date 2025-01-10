@@ -299,7 +299,7 @@ class GroceryItemsCompanion extends UpdateCompanion<GroceryItemData> {
   }
 }
 
-class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeData> {
+class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipesData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
@@ -328,7 +328,7 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeData> {
   String get actualTableName => $name;
   static const String $name = 'recipes';
   @override
-  VerificationContext validateIntegrity(Insertable<RecipeData> instance,
+  VerificationContext validateIntegrity(Insertable<RecipesData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -345,9 +345,9 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeData> {
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  RecipeData map(Map<String, dynamic> data, {String? tablePrefix}) {
+  RecipesData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return RecipeData(
+    return RecipesData(
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       name: attachedDatabase.typeMapping
@@ -361,10 +361,10 @@ class $RecipesTable extends Recipes with TableInfo<$RecipesTable, RecipeData> {
   }
 }
 
-class RecipeData extends DataClass implements Insertable<RecipeData> {
+class RecipesData extends DataClass implements Insertable<RecipesData> {
   final int id;
   final String? name;
-  const RecipeData({required this.id, this.name});
+  const RecipesData({required this.id, this.name});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -382,10 +382,10 @@ class RecipeData extends DataClass implements Insertable<RecipeData> {
     );
   }
 
-  factory RecipeData.fromJson(Map<String, dynamic> json,
+  factory RecipesData.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return RecipeData(
+    return RecipesData(
       id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String?>(json['name']),
     );
@@ -399,13 +399,13 @@ class RecipeData extends DataClass implements Insertable<RecipeData> {
     };
   }
 
-  RecipeData copyWith({int? id, Value<String?> name = const Value.absent()}) =>
-      RecipeData(
+  RecipesData copyWith({int? id, Value<String?> name = const Value.absent()}) =>
+      RecipesData(
         id: id ?? this.id,
         name: name.present ? name.value : this.name,
       );
-  RecipeData copyWithCompanion(RecipesCompanion data) {
-    return RecipeData(
+  RecipesData copyWithCompanion(RecipesCompanion data) {
+    return RecipesData(
       id: data.id.present ? data.id.value : this.id,
       name: data.name.present ? data.name.value : this.name,
     );
@@ -413,7 +413,7 @@ class RecipeData extends DataClass implements Insertable<RecipeData> {
 
   @override
   String toString() {
-    return (StringBuffer('RecipeData(')
+    return (StringBuffer('RecipesData(')
           ..write('id: $id, ')
           ..write('name: $name')
           ..write(')'))
@@ -425,10 +425,10 @@ class RecipeData extends DataClass implements Insertable<RecipeData> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is RecipeData && other.id == this.id && other.name == this.name);
+      (other is RecipesData && other.id == this.id && other.name == this.name);
 }
 
-class RecipesCompanion extends UpdateCompanion<RecipeData> {
+class RecipesCompanion extends UpdateCompanion<RecipesData> {
   final Value<int> id;
   final Value<String?> name;
   const RecipesCompanion({
@@ -439,7 +439,7 @@ class RecipesCompanion extends UpdateCompanion<RecipeData> {
     this.id = const Value.absent(),
     this.name = const Value.absent(),
   });
-  static Insertable<RecipeData> custom({
+  static Insertable<RecipesData> custom({
     Expression<int>? id,
     Expression<String>? name,
   }) {
@@ -478,211 +478,232 @@ class RecipesCompanion extends UpdateCompanion<RecipeData> {
   }
 }
 
-class $RecipeGroceryItemsTable extends RecipeGroceryItems
-    with TableInfo<$RecipeGroceryItemsTable, RecipeGroceryItemData> {
+class $RecipeIngredientsTable extends RecipeIngredients
+    with TableInfo<$RecipeIngredientsTable, RecipeIngredientsData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $RecipeGroceryItemsTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _recipeIdMeta =
-      const VerificationMeta('recipeId');
+  $RecipeIngredientsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<int> recipeId = GeneratedColumn<int>(
-      'recipe_id', aliasedName, true,
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      $customConstraints: 'REFERENCES recipes(id)');
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
   static const VerificationMeta _groceryItemIdMeta =
       const VerificationMeta('groceryItemId');
   @override
   late final GeneratedColumn<int> groceryItemId = GeneratedColumn<int>(
-      'grocery_item_id', aliasedName, true,
+      'grocery_item_id', aliasedName, false,
       type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      $customConstraints: 'REFERENCES grocery_items(id)');
+      requiredDuringInsert: true,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES grocery_items (id)'));
+  static const VerificationMeta _recipeIdMeta =
+      const VerificationMeta('recipeId');
   @override
-  List<GeneratedColumn> get $columns => [recipeId, groceryItemId];
+  late final GeneratedColumn<int> recipeId = GeneratedColumn<int>(
+      'recipe_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES recipes (id)'));
+  @override
+  List<GeneratedColumn> get $columns => [id, groceryItemId, recipeId];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'recipe_grocery_items';
+  static const String $name = 'recipe_ingredients';
   @override
   VerificationContext validateIntegrity(
-      Insertable<RecipeGroceryItemData> instance,
+      Insertable<RecipeIngredientsData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
-    if (data.containsKey('recipe_id')) {
-      context.handle(_recipeIdMeta,
-          recipeId.isAcceptableOrUnknown(data['recipe_id']!, _recipeIdMeta));
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
     if (data.containsKey('grocery_item_id')) {
       context.handle(
           _groceryItemIdMeta,
           groceryItemId.isAcceptableOrUnknown(
               data['grocery_item_id']!, _groceryItemIdMeta));
+    } else if (isInserting) {
+      context.missing(_groceryItemIdMeta);
+    }
+    if (data.containsKey('recipe_id')) {
+      context.handle(_recipeIdMeta,
+          recipeId.isAcceptableOrUnknown(data['recipe_id']!, _recipeIdMeta));
+    } else if (isInserting) {
+      context.missing(_recipeIdMeta);
     }
     return context;
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {recipeId, groceryItemId};
+  Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  RecipeGroceryItemData map(Map<String, dynamic> data, {String? tablePrefix}) {
+  RecipeIngredientsData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return RecipeGroceryItemData(
-      recipeId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}recipe_id']),
+    return RecipeIngredientsData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       groceryItemId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}grocery_item_id']),
+          .read(DriftSqlType.int, data['${effectivePrefix}grocery_item_id'])!,
+      recipeId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}recipe_id'])!,
     );
   }
 
   @override
-  $RecipeGroceryItemsTable createAlias(String alias) {
-    return $RecipeGroceryItemsTable(attachedDatabase, alias);
+  $RecipeIngredientsTable createAlias(String alias) {
+    return $RecipeIngredientsTable(attachedDatabase, alias);
   }
 }
 
-class RecipeGroceryItemData extends DataClass
-    implements Insertable<RecipeGroceryItemData> {
-  final int? recipeId;
-  final int? groceryItemId;
-  const RecipeGroceryItemData({this.recipeId, this.groceryItemId});
+class RecipeIngredientsData extends DataClass
+    implements Insertable<RecipeIngredientsData> {
+  final int id;
+  final int groceryItemId;
+  final int recipeId;
+  const RecipeIngredientsData(
+      {required this.id, required this.groceryItemId, required this.recipeId});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    if (!nullToAbsent || recipeId != null) {
-      map['recipe_id'] = Variable<int>(recipeId);
-    }
-    if (!nullToAbsent || groceryItemId != null) {
-      map['grocery_item_id'] = Variable<int>(groceryItemId);
-    }
+    map['id'] = Variable<int>(id);
+    map['grocery_item_id'] = Variable<int>(groceryItemId);
+    map['recipe_id'] = Variable<int>(recipeId);
     return map;
   }
 
-  RecipeGroceryItemsCompanion toCompanion(bool nullToAbsent) {
-    return RecipeGroceryItemsCompanion(
-      recipeId: recipeId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(recipeId),
-      groceryItemId: groceryItemId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(groceryItemId),
+  RecipeIngredientsCompanion toCompanion(bool nullToAbsent) {
+    return RecipeIngredientsCompanion(
+      id: Value(id),
+      groceryItemId: Value(groceryItemId),
+      recipeId: Value(recipeId),
     );
   }
 
-  factory RecipeGroceryItemData.fromJson(Map<String, dynamic> json,
+  factory RecipeIngredientsData.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return RecipeGroceryItemData(
-      recipeId: serializer.fromJson<int?>(json['recipeId']),
-      groceryItemId: serializer.fromJson<int?>(json['groceryItemId']),
+    return RecipeIngredientsData(
+      id: serializer.fromJson<int>(json['id']),
+      groceryItemId: serializer.fromJson<int>(json['groceryItemId']),
+      recipeId: serializer.fromJson<int>(json['recipeId']),
     );
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'recipeId': serializer.toJson<int?>(recipeId),
-      'groceryItemId': serializer.toJson<int?>(groceryItemId),
+      'id': serializer.toJson<int>(id),
+      'groceryItemId': serializer.toJson<int>(groceryItemId),
+      'recipeId': serializer.toJson<int>(recipeId),
     };
   }
 
-  RecipeGroceryItemData copyWith(
-          {Value<int?> recipeId = const Value.absent(),
-          Value<int?> groceryItemId = const Value.absent()}) =>
-      RecipeGroceryItemData(
-        recipeId: recipeId.present ? recipeId.value : this.recipeId,
-        groceryItemId:
-            groceryItemId.present ? groceryItemId.value : this.groceryItemId,
+  RecipeIngredientsData copyWith(
+          {int? id, int? groceryItemId, int? recipeId}) =>
+      RecipeIngredientsData(
+        id: id ?? this.id,
+        groceryItemId: groceryItemId ?? this.groceryItemId,
+        recipeId: recipeId ?? this.recipeId,
       );
-  RecipeGroceryItemData copyWithCompanion(RecipeGroceryItemsCompanion data) {
-    return RecipeGroceryItemData(
-      recipeId: data.recipeId.present ? data.recipeId.value : this.recipeId,
+  RecipeIngredientsData copyWithCompanion(RecipeIngredientsCompanion data) {
+    return RecipeIngredientsData(
+      id: data.id.present ? data.id.value : this.id,
       groceryItemId: data.groceryItemId.present
           ? data.groceryItemId.value
           : this.groceryItemId,
+      recipeId: data.recipeId.present ? data.recipeId.value : this.recipeId,
     );
   }
 
   @override
   String toString() {
-    return (StringBuffer('RecipeGroceryItemData(')
-          ..write('recipeId: $recipeId, ')
-          ..write('groceryItemId: $groceryItemId')
+    return (StringBuffer('RecipeIngredientsData(')
+          ..write('id: $id, ')
+          ..write('groceryItemId: $groceryItemId, ')
+          ..write('recipeId: $recipeId')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(recipeId, groceryItemId);
+  int get hashCode => Object.hash(id, groceryItemId, recipeId);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is RecipeGroceryItemData &&
-          other.recipeId == this.recipeId &&
-          other.groceryItemId == this.groceryItemId);
+      (other is RecipeIngredientsData &&
+          other.id == this.id &&
+          other.groceryItemId == this.groceryItemId &&
+          other.recipeId == this.recipeId);
 }
 
-class RecipeGroceryItemsCompanion
-    extends UpdateCompanion<RecipeGroceryItemData> {
-  final Value<int?> recipeId;
-  final Value<int?> groceryItemId;
-  final Value<int> rowid;
-  const RecipeGroceryItemsCompanion({
-    this.recipeId = const Value.absent(),
+class RecipeIngredientsCompanion
+    extends UpdateCompanion<RecipeIngredientsData> {
+  final Value<int> id;
+  final Value<int> groceryItemId;
+  final Value<int> recipeId;
+  const RecipeIngredientsCompanion({
+    this.id = const Value.absent(),
     this.groceryItemId = const Value.absent(),
-    this.rowid = const Value.absent(),
-  });
-  RecipeGroceryItemsCompanion.insert({
     this.recipeId = const Value.absent(),
-    this.groceryItemId = const Value.absent(),
-    this.rowid = const Value.absent(),
   });
-  static Insertable<RecipeGroceryItemData> custom({
-    Expression<int>? recipeId,
+  RecipeIngredientsCompanion.insert({
+    this.id = const Value.absent(),
+    required int groceryItemId,
+    required int recipeId,
+  })  : groceryItemId = Value(groceryItemId),
+        recipeId = Value(recipeId);
+  static Insertable<RecipeIngredientsData> custom({
+    Expression<int>? id,
     Expression<int>? groceryItemId,
-    Expression<int>? rowid,
+    Expression<int>? recipeId,
   }) {
     return RawValuesInsertable({
-      if (recipeId != null) 'recipe_id': recipeId,
+      if (id != null) 'id': id,
       if (groceryItemId != null) 'grocery_item_id': groceryItemId,
-      if (rowid != null) 'rowid': rowid,
+      if (recipeId != null) 'recipe_id': recipeId,
     });
   }
 
-  RecipeGroceryItemsCompanion copyWith(
-      {Value<int?>? recipeId, Value<int?>? groceryItemId, Value<int>? rowid}) {
-    return RecipeGroceryItemsCompanion(
-      recipeId: recipeId ?? this.recipeId,
+  RecipeIngredientsCompanion copyWith(
+      {Value<int>? id, Value<int>? groceryItemId, Value<int>? recipeId}) {
+    return RecipeIngredientsCompanion(
+      id: id ?? this.id,
       groceryItemId: groceryItemId ?? this.groceryItemId,
-      rowid: rowid ?? this.rowid,
+      recipeId: recipeId ?? this.recipeId,
     );
   }
 
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    if (recipeId.present) {
-      map['recipe_id'] = Variable<int>(recipeId.value);
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
     }
     if (groceryItemId.present) {
       map['grocery_item_id'] = Variable<int>(groceryItemId.value);
     }
-    if (rowid.present) {
-      map['rowid'] = Variable<int>(rowid.value);
+    if (recipeId.present) {
+      map['recipe_id'] = Variable<int>(recipeId.value);
     }
     return map;
   }
 
   @override
   String toString() {
-    return (StringBuffer('RecipeGroceryItemsCompanion(')
-          ..write('recipeId: $recipeId, ')
+    return (StringBuffer('RecipeIngredientsCompanion(')
+          ..write('id: $id, ')
           ..write('groceryItemId: $groceryItemId, ')
-          ..write('rowid: $rowid')
+          ..write('recipeId: $recipeId')
           ..write(')'))
         .toString();
   }
@@ -870,20 +891,264 @@ class ShoppingListsCompanion extends UpdateCompanion<ShoppingListData> {
   }
 }
 
+class $ShoppingListItemsTable extends ShoppingListItems
+    with TableInfo<$ShoppingListItemsTable, ShoppingListItemsData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ShoppingListItemsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _groceryItemIdMeta =
+      const VerificationMeta('groceryItemId');
+  @override
+  late final GeneratedColumn<int> groceryItemId = GeneratedColumn<int>(
+      'grocery_item_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES grocery_items (id)'));
+  static const VerificationMeta _shoppingListIdMeta =
+      const VerificationMeta('shoppingListId');
+  @override
+  late final GeneratedColumn<int> shoppingListId = GeneratedColumn<int>(
+      'shopping_list_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES shopping_lists (id)'));
+  @override
+  List<GeneratedColumn> get $columns => [id, groceryItemId, shoppingListId];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'shopping_list_items';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<ShoppingListItemsData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('grocery_item_id')) {
+      context.handle(
+          _groceryItemIdMeta,
+          groceryItemId.isAcceptableOrUnknown(
+              data['grocery_item_id']!, _groceryItemIdMeta));
+    } else if (isInserting) {
+      context.missing(_groceryItemIdMeta);
+    }
+    if (data.containsKey('shopping_list_id')) {
+      context.handle(
+          _shoppingListIdMeta,
+          shoppingListId.isAcceptableOrUnknown(
+              data['shopping_list_id']!, _shoppingListIdMeta));
+    } else if (isInserting) {
+      context.missing(_shoppingListIdMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ShoppingListItemsData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ShoppingListItemsData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      groceryItemId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}grocery_item_id'])!,
+      shoppingListId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}shopping_list_id'])!,
+    );
+  }
+
+  @override
+  $ShoppingListItemsTable createAlias(String alias) {
+    return $ShoppingListItemsTable(attachedDatabase, alias);
+  }
+}
+
+class ShoppingListItemsData extends DataClass
+    implements Insertable<ShoppingListItemsData> {
+  final int id;
+  final int groceryItemId;
+  final int shoppingListId;
+  const ShoppingListItemsData(
+      {required this.id,
+      required this.groceryItemId,
+      required this.shoppingListId});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['grocery_item_id'] = Variable<int>(groceryItemId);
+    map['shopping_list_id'] = Variable<int>(shoppingListId);
+    return map;
+  }
+
+  ShoppingListItemsCompanion toCompanion(bool nullToAbsent) {
+    return ShoppingListItemsCompanion(
+      id: Value(id),
+      groceryItemId: Value(groceryItemId),
+      shoppingListId: Value(shoppingListId),
+    );
+  }
+
+  factory ShoppingListItemsData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ShoppingListItemsData(
+      id: serializer.fromJson<int>(json['id']),
+      groceryItemId: serializer.fromJson<int>(json['groceryItemId']),
+      shoppingListId: serializer.fromJson<int>(json['shoppingListId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'groceryItemId': serializer.toJson<int>(groceryItemId),
+      'shoppingListId': serializer.toJson<int>(shoppingListId),
+    };
+  }
+
+  ShoppingListItemsData copyWith(
+          {int? id, int? groceryItemId, int? shoppingListId}) =>
+      ShoppingListItemsData(
+        id: id ?? this.id,
+        groceryItemId: groceryItemId ?? this.groceryItemId,
+        shoppingListId: shoppingListId ?? this.shoppingListId,
+      );
+  ShoppingListItemsData copyWithCompanion(ShoppingListItemsCompanion data) {
+    return ShoppingListItemsData(
+      id: data.id.present ? data.id.value : this.id,
+      groceryItemId: data.groceryItemId.present
+          ? data.groceryItemId.value
+          : this.groceryItemId,
+      shoppingListId: data.shoppingListId.present
+          ? data.shoppingListId.value
+          : this.shoppingListId,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ShoppingListItemsData(')
+          ..write('id: $id, ')
+          ..write('groceryItemId: $groceryItemId, ')
+          ..write('shoppingListId: $shoppingListId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, groceryItemId, shoppingListId);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ShoppingListItemsData &&
+          other.id == this.id &&
+          other.groceryItemId == this.groceryItemId &&
+          other.shoppingListId == this.shoppingListId);
+}
+
+class ShoppingListItemsCompanion
+    extends UpdateCompanion<ShoppingListItemsData> {
+  final Value<int> id;
+  final Value<int> groceryItemId;
+  final Value<int> shoppingListId;
+  const ShoppingListItemsCompanion({
+    this.id = const Value.absent(),
+    this.groceryItemId = const Value.absent(),
+    this.shoppingListId = const Value.absent(),
+  });
+  ShoppingListItemsCompanion.insert({
+    this.id = const Value.absent(),
+    required int groceryItemId,
+    required int shoppingListId,
+  })  : groceryItemId = Value(groceryItemId),
+        shoppingListId = Value(shoppingListId);
+  static Insertable<ShoppingListItemsData> custom({
+    Expression<int>? id,
+    Expression<int>? groceryItemId,
+    Expression<int>? shoppingListId,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (groceryItemId != null) 'grocery_item_id': groceryItemId,
+      if (shoppingListId != null) 'shopping_list_id': shoppingListId,
+    });
+  }
+
+  ShoppingListItemsCompanion copyWith(
+      {Value<int>? id, Value<int>? groceryItemId, Value<int>? shoppingListId}) {
+    return ShoppingListItemsCompanion(
+      id: id ?? this.id,
+      groceryItemId: groceryItemId ?? this.groceryItemId,
+      shoppingListId: shoppingListId ?? this.shoppingListId,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (groceryItemId.present) {
+      map['grocery_item_id'] = Variable<int>(groceryItemId.value);
+    }
+    if (shoppingListId.present) {
+      map['shopping_list_id'] = Variable<int>(shoppingListId.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ShoppingListItemsCompanion(')
+          ..write('id: $id, ')
+          ..write('groceryItemId: $groceryItemId, ')
+          ..write('shoppingListId: $shoppingListId')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $GroceryItemsTable groceryItems = $GroceryItemsTable(this);
   late final $RecipesTable recipes = $RecipesTable(this);
-  late final $RecipeGroceryItemsTable recipeGroceryItems =
-      $RecipeGroceryItemsTable(this);
+  late final $RecipeIngredientsTable recipeIngredients =
+      $RecipeIngredientsTable(this);
   late final $ShoppingListsTable shoppingLists = $ShoppingListsTable(this);
+  late final $ShoppingListItemsTable shoppingListItems =
+      $ShoppingListItemsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [groceryItems, recipes, recipeGroceryItems, shoppingLists];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [
+        groceryItems,
+        recipes,
+        recipeIngredients,
+        shoppingLists,
+        shoppingListItems
+      ];
 }
 
 typedef $$GroceryItemsTableCreateCompanionBuilder = GroceryItemsCompanion
@@ -907,20 +1172,38 @@ final class $$GroceryItemsTableReferences
     extends BaseReferences<_$AppDatabase, $GroceryItemsTable, GroceryItemData> {
   $$GroceryItemsTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
-  static MultiTypedResultKey<$RecipeGroceryItemsTable,
-      List<RecipeGroceryItemData>> _recipeGroceryItemsRefsTable(
+  static MultiTypedResultKey<$RecipeIngredientsTable,
+      List<RecipeIngredientsData>> _recipeIngredientsRefsTable(
           _$AppDatabase db) =>
-      MultiTypedResultKey.fromTable(db.recipeGroceryItems,
+      MultiTypedResultKey.fromTable(db.recipeIngredients,
           aliasName: $_aliasNameGenerator(
-              db.groceryItems.id, db.recipeGroceryItems.groceryItemId));
+              db.groceryItems.id, db.recipeIngredients.groceryItemId));
 
-  $$RecipeGroceryItemsTableProcessedTableManager get recipeGroceryItemsRefs {
+  $$RecipeIngredientsTableProcessedTableManager get recipeIngredientsRefs {
     final manager =
-        $$RecipeGroceryItemsTableTableManager($_db, $_db.recipeGroceryItems)
+        $$RecipeIngredientsTableTableManager($_db, $_db.recipeIngredients)
             .filter((f) => f.groceryItemId.id($_item.id));
 
     final cache =
-        $_typedResult.readTableOrNull(_recipeGroceryItemsRefsTable($_db));
+        $_typedResult.readTableOrNull(_recipeIngredientsRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+
+  static MultiTypedResultKey<$ShoppingListItemsTable,
+      List<ShoppingListItemsData>> _shoppingListItemsRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.shoppingListItems,
+          aliasName: $_aliasNameGenerator(
+              db.groceryItems.id, db.shoppingListItems.groceryItemId));
+
+  $$ShoppingListItemsTableProcessedTableManager get shoppingListItemsRefs {
+    final manager =
+        $$ShoppingListItemsTableTableManager($_db, $_db.shoppingListItems)
+            .filter((f) => f.groceryItemId.id($_item.id));
+
+    final cache =
+        $_typedResult.readTableOrNull(_shoppingListItemsRefsTable($_db));
     return ProcessedTableManager(
         manager.$state.copyWith(prefetchedData: cache));
   }
@@ -950,19 +1233,40 @@ class $$GroceryItemsTableFilterComposer
   ColumnFilters<String> get location => $composableBuilder(
       column: $table.location, builder: (column) => ColumnFilters(column));
 
-  Expression<bool> recipeGroceryItemsRefs(
-      Expression<bool> Function($$RecipeGroceryItemsTableFilterComposer f) f) {
-    final $$RecipeGroceryItemsTableFilterComposer composer = $composerBuilder(
+  Expression<bool> recipeIngredientsRefs(
+      Expression<bool> Function($$RecipeIngredientsTableFilterComposer f) f) {
+    final $$RecipeIngredientsTableFilterComposer composer = $composerBuilder(
         composer: this,
         getCurrentColumn: (t) => t.id,
-        referencedTable: $db.recipeGroceryItems,
+        referencedTable: $db.recipeIngredients,
         getReferencedColumn: (t) => t.groceryItemId,
         builder: (joinBuilder,
                 {$addJoinBuilderToRootComposer,
                 $removeJoinBuilderFromRootComposer}) =>
-            $$RecipeGroceryItemsTableFilterComposer(
+            $$RecipeIngredientsTableFilterComposer(
               $db: $db,
-              $table: $db.recipeGroceryItems,
+              $table: $db.recipeIngredients,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+
+  Expression<bool> shoppingListItemsRefs(
+      Expression<bool> Function($$ShoppingListItemsTableFilterComposer f) f) {
+    final $$ShoppingListItemsTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.shoppingListItems,
+        getReferencedColumn: (t) => t.groceryItemId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$ShoppingListItemsTableFilterComposer(
+              $db: $db,
+              $table: $db.shoppingListItems,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
               $removeJoinBuilderFromRootComposer:
@@ -1021,20 +1325,42 @@ class $$GroceryItemsTableAnnotationComposer
   GeneratedColumn<String> get location =>
       $composableBuilder(column: $table.location, builder: (column) => column);
 
-  Expression<T> recipeGroceryItemsRefs<T extends Object>(
-      Expression<T> Function($$RecipeGroceryItemsTableAnnotationComposer a) f) {
-    final $$RecipeGroceryItemsTableAnnotationComposer composer =
+  Expression<T> recipeIngredientsRefs<T extends Object>(
+      Expression<T> Function($$RecipeIngredientsTableAnnotationComposer a) f) {
+    final $$RecipeIngredientsTableAnnotationComposer composer =
         $composerBuilder(
             composer: this,
             getCurrentColumn: (t) => t.id,
-            referencedTable: $db.recipeGroceryItems,
+            referencedTable: $db.recipeIngredients,
             getReferencedColumn: (t) => t.groceryItemId,
             builder: (joinBuilder,
                     {$addJoinBuilderToRootComposer,
                     $removeJoinBuilderFromRootComposer}) =>
-                $$RecipeGroceryItemsTableAnnotationComposer(
+                $$RecipeIngredientsTableAnnotationComposer(
                   $db: $db,
-                  $table: $db.recipeGroceryItems,
+                  $table: $db.recipeIngredients,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+
+  Expression<T> shoppingListItemsRefs<T extends Object>(
+      Expression<T> Function($$ShoppingListItemsTableAnnotationComposer a) f) {
+    final $$ShoppingListItemsTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.shoppingListItems,
+            getReferencedColumn: (t) => t.groceryItemId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$ShoppingListItemsTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.shoppingListItems,
                   $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
                   joinBuilder: joinBuilder,
                   $removeJoinBuilderFromRootComposer:
@@ -1055,7 +1381,8 @@ class $$GroceryItemsTableTableManager extends RootTableManager<
     $$GroceryItemsTableUpdateCompanionBuilder,
     (GroceryItemData, $$GroceryItemsTableReferences),
     GroceryItemData,
-    PrefetchHooks Function({bool recipeGroceryItemsRefs})> {
+    PrefetchHooks Function(
+        {bool recipeIngredientsRefs, bool shoppingListItemsRefs})> {
   $$GroceryItemsTableTableManager(_$AppDatabase db, $GroceryItemsTable table)
       : super(TableManagerState(
           db: db,
@@ -1100,23 +1427,37 @@ class $$GroceryItemsTableTableManager extends RootTableManager<
                     $$GroceryItemsTableReferences(db, table, e)
                   ))
               .toList(),
-          prefetchHooksCallback: ({recipeGroceryItemsRefs = false}) {
+          prefetchHooksCallback: (
+              {recipeIngredientsRefs = false, shoppingListItemsRefs = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [
-                if (recipeGroceryItemsRefs) db.recipeGroceryItems
+                if (recipeIngredientsRefs) db.recipeIngredients,
+                if (shoppingListItemsRefs) db.shoppingListItems
               ],
               addJoins: null,
               getPrefetchedDataCallback: (items) async {
                 return [
-                  if (recipeGroceryItemsRefs)
+                  if (recipeIngredientsRefs)
                     await $_getPrefetchedData(
                         currentTable: table,
                         referencedTable: $$GroceryItemsTableReferences
-                            ._recipeGroceryItemsRefsTable(db),
+                            ._recipeIngredientsRefsTable(db),
                         managerFromTypedResult: (p0) =>
                             $$GroceryItemsTableReferences(db, table, p0)
-                                .recipeGroceryItemsRefs,
+                                .recipeIngredientsRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems
+                                .where((e) => e.groceryItemId == item.id),
+                        typedResults: items),
+                  if (shoppingListItemsRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$GroceryItemsTableReferences
+                            ._shoppingListItemsRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$GroceryItemsTableReferences(db, table, p0)
+                                .shoppingListItemsRefs,
                         referencedItemsForCurrentItem:
                             (item, referencedItems) => referencedItems
                                 .where((e) => e.groceryItemId == item.id),
@@ -1139,7 +1480,8 @@ typedef $$GroceryItemsTableProcessedTableManager = ProcessedTableManager<
     $$GroceryItemsTableUpdateCompanionBuilder,
     (GroceryItemData, $$GroceryItemsTableReferences),
     GroceryItemData,
-    PrefetchHooks Function({bool recipeGroceryItemsRefs})>;
+    PrefetchHooks Function(
+        {bool recipeIngredientsRefs, bool shoppingListItemsRefs})>;
 typedef $$RecipesTableCreateCompanionBuilder = RecipesCompanion Function({
   Value<int> id,
   Value<String?> name,
@@ -1150,23 +1492,23 @@ typedef $$RecipesTableUpdateCompanionBuilder = RecipesCompanion Function({
 });
 
 final class $$RecipesTableReferences
-    extends BaseReferences<_$AppDatabase, $RecipesTable, RecipeData> {
+    extends BaseReferences<_$AppDatabase, $RecipesTable, RecipesData> {
   $$RecipesTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
-  static MultiTypedResultKey<$RecipeGroceryItemsTable,
-      List<RecipeGroceryItemData>> _recipeGroceryItemsRefsTable(
+  static MultiTypedResultKey<$RecipeIngredientsTable,
+      List<RecipeIngredientsData>> _recipeIngredientsRefsTable(
           _$AppDatabase db) =>
-      MultiTypedResultKey.fromTable(db.recipeGroceryItems,
+      MultiTypedResultKey.fromTable(db.recipeIngredients,
           aliasName: $_aliasNameGenerator(
-              db.recipes.id, db.recipeGroceryItems.recipeId));
+              db.recipes.id, db.recipeIngredients.recipeId));
 
-  $$RecipeGroceryItemsTableProcessedTableManager get recipeGroceryItemsRefs {
+  $$RecipeIngredientsTableProcessedTableManager get recipeIngredientsRefs {
     final manager =
-        $$RecipeGroceryItemsTableTableManager($_db, $_db.recipeGroceryItems)
+        $$RecipeIngredientsTableTableManager($_db, $_db.recipeIngredients)
             .filter((f) => f.recipeId.id($_item.id));
 
     final cache =
-        $_typedResult.readTableOrNull(_recipeGroceryItemsRefsTable($_db));
+        $_typedResult.readTableOrNull(_recipeIngredientsRefsTable($_db));
     return ProcessedTableManager(
         manager.$state.copyWith(prefetchedData: cache));
   }
@@ -1187,19 +1529,19 @@ class $$RecipesTableFilterComposer
   ColumnFilters<String> get name => $composableBuilder(
       column: $table.name, builder: (column) => ColumnFilters(column));
 
-  Expression<bool> recipeGroceryItemsRefs(
-      Expression<bool> Function($$RecipeGroceryItemsTableFilterComposer f) f) {
-    final $$RecipeGroceryItemsTableFilterComposer composer = $composerBuilder(
+  Expression<bool> recipeIngredientsRefs(
+      Expression<bool> Function($$RecipeIngredientsTableFilterComposer f) f) {
+    final $$RecipeIngredientsTableFilterComposer composer = $composerBuilder(
         composer: this,
         getCurrentColumn: (t) => t.id,
-        referencedTable: $db.recipeGroceryItems,
+        referencedTable: $db.recipeIngredients,
         getReferencedColumn: (t) => t.recipeId,
         builder: (joinBuilder,
                 {$addJoinBuilderToRootComposer,
                 $removeJoinBuilderFromRootComposer}) =>
-            $$RecipeGroceryItemsTableFilterComposer(
+            $$RecipeIngredientsTableFilterComposer(
               $db: $db,
-              $table: $db.recipeGroceryItems,
+              $table: $db.recipeIngredients,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
               $removeJoinBuilderFromRootComposer:
@@ -1240,20 +1582,20 @@ class $$RecipesTableAnnotationComposer
   GeneratedColumn<String> get name =>
       $composableBuilder(column: $table.name, builder: (column) => column);
 
-  Expression<T> recipeGroceryItemsRefs<T extends Object>(
-      Expression<T> Function($$RecipeGroceryItemsTableAnnotationComposer a) f) {
-    final $$RecipeGroceryItemsTableAnnotationComposer composer =
+  Expression<T> recipeIngredientsRefs<T extends Object>(
+      Expression<T> Function($$RecipeIngredientsTableAnnotationComposer a) f) {
+    final $$RecipeIngredientsTableAnnotationComposer composer =
         $composerBuilder(
             composer: this,
             getCurrentColumn: (t) => t.id,
-            referencedTable: $db.recipeGroceryItems,
+            referencedTable: $db.recipeIngredients,
             getReferencedColumn: (t) => t.recipeId,
             builder: (joinBuilder,
                     {$addJoinBuilderToRootComposer,
                     $removeJoinBuilderFromRootComposer}) =>
-                $$RecipeGroceryItemsTableAnnotationComposer(
+                $$RecipeIngredientsTableAnnotationComposer(
                   $db: $db,
-                  $table: $db.recipeGroceryItems,
+                  $table: $db.recipeIngredients,
                   $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
                   joinBuilder: joinBuilder,
                   $removeJoinBuilderFromRootComposer:
@@ -1266,15 +1608,15 @@ class $$RecipesTableAnnotationComposer
 class $$RecipesTableTableManager extends RootTableManager<
     _$AppDatabase,
     $RecipesTable,
-    RecipeData,
+    RecipesData,
     $$RecipesTableFilterComposer,
     $$RecipesTableOrderingComposer,
     $$RecipesTableAnnotationComposer,
     $$RecipesTableCreateCompanionBuilder,
     $$RecipesTableUpdateCompanionBuilder,
-    (RecipeData, $$RecipesTableReferences),
-    RecipeData,
-    PrefetchHooks Function({bool recipeGroceryItemsRefs})> {
+    (RecipesData, $$RecipesTableReferences),
+    RecipesData,
+    PrefetchHooks Function({bool recipeIngredientsRefs})> {
   $$RecipesTableTableManager(_$AppDatabase db, $RecipesTable table)
       : super(TableManagerState(
           db: db,
@@ -1305,23 +1647,23 @@ class $$RecipesTableTableManager extends RootTableManager<
               .map((e) =>
                   (e.readTable(table), $$RecipesTableReferences(db, table, e)))
               .toList(),
-          prefetchHooksCallback: ({recipeGroceryItemsRefs = false}) {
+          prefetchHooksCallback: ({recipeIngredientsRefs = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [
-                if (recipeGroceryItemsRefs) db.recipeGroceryItems
+                if (recipeIngredientsRefs) db.recipeIngredients
               ],
               addJoins: null,
               getPrefetchedDataCallback: (items) async {
                 return [
-                  if (recipeGroceryItemsRefs)
+                  if (recipeIngredientsRefs)
                     await $_getPrefetchedData(
                         currentTable: table,
                         referencedTable: $$RecipesTableReferences
-                            ._recipeGroceryItemsRefsTable(db),
+                            ._recipeIngredientsRefsTable(db),
                         managerFromTypedResult: (p0) =>
                             $$RecipesTableReferences(db, table, p0)
-                                .recipeGroceryItemsRefs,
+                                .recipeIngredientsRefs,
                         referencedItemsForCurrentItem: (item,
                                 referencedItems) =>
                             referencedItems.where((e) => e.recipeId == item.id),
@@ -1336,90 +1678,71 @@ class $$RecipesTableTableManager extends RootTableManager<
 typedef $$RecipesTableProcessedTableManager = ProcessedTableManager<
     _$AppDatabase,
     $RecipesTable,
-    RecipeData,
+    RecipesData,
     $$RecipesTableFilterComposer,
     $$RecipesTableOrderingComposer,
     $$RecipesTableAnnotationComposer,
     $$RecipesTableCreateCompanionBuilder,
     $$RecipesTableUpdateCompanionBuilder,
-    (RecipeData, $$RecipesTableReferences),
-    RecipeData,
-    PrefetchHooks Function({bool recipeGroceryItemsRefs})>;
-typedef $$RecipeGroceryItemsTableCreateCompanionBuilder
-    = RecipeGroceryItemsCompanion Function({
-  Value<int?> recipeId,
-  Value<int?> groceryItemId,
-  Value<int> rowid,
+    (RecipesData, $$RecipesTableReferences),
+    RecipesData,
+    PrefetchHooks Function({bool recipeIngredientsRefs})>;
+typedef $$RecipeIngredientsTableCreateCompanionBuilder
+    = RecipeIngredientsCompanion Function({
+  Value<int> id,
+  required int groceryItemId,
+  required int recipeId,
 });
-typedef $$RecipeGroceryItemsTableUpdateCompanionBuilder
-    = RecipeGroceryItemsCompanion Function({
-  Value<int?> recipeId,
-  Value<int?> groceryItemId,
-  Value<int> rowid,
+typedef $$RecipeIngredientsTableUpdateCompanionBuilder
+    = RecipeIngredientsCompanion Function({
+  Value<int> id,
+  Value<int> groceryItemId,
+  Value<int> recipeId,
 });
 
-final class $$RecipeGroceryItemsTableReferences extends BaseReferences<
-    _$AppDatabase, $RecipeGroceryItemsTable, RecipeGroceryItemData> {
-  $$RecipeGroceryItemsTableReferences(
+final class $$RecipeIngredientsTableReferences extends BaseReferences<
+    _$AppDatabase, $RecipeIngredientsTable, RecipeIngredientsData> {
+  $$RecipeIngredientsTableReferences(
       super.$_db, super.$_table, super.$_typedResult);
 
-  static $RecipesTable _recipeIdTable(_$AppDatabase db) =>
-      db.recipes.createAlias(
-          $_aliasNameGenerator(db.recipeGroceryItems.recipeId, db.recipes.id));
+  static $GroceryItemsTable _groceryItemIdTable(_$AppDatabase db) =>
+      db.groceryItems.createAlias($_aliasNameGenerator(
+          db.recipeIngredients.groceryItemId, db.groceryItems.id));
 
-  $$RecipesTableProcessedTableManager? get recipeId {
-    if ($_item.recipeId == null) return null;
-    final manager = $$RecipesTableTableManager($_db, $_db.recipes)
-        .filter((f) => f.id($_item.recipeId!));
-    final item = $_typedResult.readTableOrNull(_recipeIdTable($_db));
+  $$GroceryItemsTableProcessedTableManager get groceryItemId {
+    final manager = $$GroceryItemsTableTableManager($_db, $_db.groceryItems)
+        .filter((f) => f.id($_item.groceryItemId));
+    final item = $_typedResult.readTableOrNull(_groceryItemIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
         manager.$state.copyWith(prefetchedData: [item]));
   }
 
-  static $GroceryItemsTable _groceryItemIdTable(_$AppDatabase db) =>
-      db.groceryItems.createAlias($_aliasNameGenerator(
-          db.recipeGroceryItems.groceryItemId, db.groceryItems.id));
+  static $RecipesTable _recipeIdTable(_$AppDatabase db) =>
+      db.recipes.createAlias(
+          $_aliasNameGenerator(db.recipeIngredients.recipeId, db.recipes.id));
 
-  $$GroceryItemsTableProcessedTableManager? get groceryItemId {
-    if ($_item.groceryItemId == null) return null;
-    final manager = $$GroceryItemsTableTableManager($_db, $_db.groceryItems)
-        .filter((f) => f.id($_item.groceryItemId!));
-    final item = $_typedResult.readTableOrNull(_groceryItemIdTable($_db));
+  $$RecipesTableProcessedTableManager get recipeId {
+    final manager = $$RecipesTableTableManager($_db, $_db.recipes)
+        .filter((f) => f.id($_item.recipeId));
+    final item = $_typedResult.readTableOrNull(_recipeIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
         manager.$state.copyWith(prefetchedData: [item]));
   }
 }
 
-class $$RecipeGroceryItemsTableFilterComposer
-    extends Composer<_$AppDatabase, $RecipeGroceryItemsTable> {
-  $$RecipeGroceryItemsTableFilterComposer({
+class $$RecipeIngredientsTableFilterComposer
+    extends Composer<_$AppDatabase, $RecipeIngredientsTable> {
+  $$RecipeIngredientsTableFilterComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  $$RecipesTableFilterComposer get recipeId {
-    final $$RecipesTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.recipeId,
-        referencedTable: $db.recipes,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$RecipesTableFilterComposer(
-              $db: $db,
-              $table: $db.recipes,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return composer;
-  }
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
 
   $$GroceryItemsTableFilterComposer get groceryItemId {
     final $$GroceryItemsTableFilterComposer composer = $composerBuilder(
@@ -1440,19 +1763,9 @@ class $$RecipeGroceryItemsTableFilterComposer
             ));
     return composer;
   }
-}
 
-class $$RecipeGroceryItemsTableOrderingComposer
-    extends Composer<_$AppDatabase, $RecipeGroceryItemsTable> {
-  $$RecipeGroceryItemsTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  $$RecipesTableOrderingComposer get recipeId {
-    final $$RecipesTableOrderingComposer composer = $composerBuilder(
+  $$RecipesTableFilterComposer get recipeId {
+    final $$RecipesTableFilterComposer composer = $composerBuilder(
         composer: this,
         getCurrentColumn: (t) => t.recipeId,
         referencedTable: $db.recipes,
@@ -1460,7 +1773,7 @@ class $$RecipeGroceryItemsTableOrderingComposer
         builder: (joinBuilder,
                 {$addJoinBuilderToRootComposer,
                 $removeJoinBuilderFromRootComposer}) =>
-            $$RecipesTableOrderingComposer(
+            $$RecipesTableFilterComposer(
               $db: $db,
               $table: $db.recipes,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
@@ -1470,6 +1783,19 @@ class $$RecipeGroceryItemsTableOrderingComposer
             ));
     return composer;
   }
+}
+
+class $$RecipeIngredientsTableOrderingComposer
+    extends Composer<_$AppDatabase, $RecipeIngredientsTable> {
+  $$RecipeIngredientsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
 
   $$GroceryItemsTableOrderingComposer get groceryItemId {
     final $$GroceryItemsTableOrderingComposer composer = $composerBuilder(
@@ -1490,19 +1816,9 @@ class $$RecipeGroceryItemsTableOrderingComposer
             ));
     return composer;
   }
-}
 
-class $$RecipeGroceryItemsTableAnnotationComposer
-    extends Composer<_$AppDatabase, $RecipeGroceryItemsTable> {
-  $$RecipeGroceryItemsTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  $$RecipesTableAnnotationComposer get recipeId {
-    final $$RecipesTableAnnotationComposer composer = $composerBuilder(
+  $$RecipesTableOrderingComposer get recipeId {
+    final $$RecipesTableOrderingComposer composer = $composerBuilder(
         composer: this,
         getCurrentColumn: (t) => t.recipeId,
         referencedTable: $db.recipes,
@@ -1510,7 +1826,7 @@ class $$RecipeGroceryItemsTableAnnotationComposer
         builder: (joinBuilder,
                 {$addJoinBuilderToRootComposer,
                 $removeJoinBuilderFromRootComposer}) =>
-            $$RecipesTableAnnotationComposer(
+            $$RecipesTableOrderingComposer(
               $db: $db,
               $table: $db.recipes,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
@@ -1520,6 +1836,19 @@ class $$RecipeGroceryItemsTableAnnotationComposer
             ));
     return composer;
   }
+}
+
+class $$RecipeIngredientsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $RecipeIngredientsTable> {
+  $$RecipeIngredientsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
 
   $$GroceryItemsTableAnnotationComposer get groceryItemId {
     final $$GroceryItemsTableAnnotationComposer composer = $composerBuilder(
@@ -1540,59 +1869,79 @@ class $$RecipeGroceryItemsTableAnnotationComposer
             ));
     return composer;
   }
+
+  $$RecipesTableAnnotationComposer get recipeId {
+    final $$RecipesTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.recipeId,
+        referencedTable: $db.recipes,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$RecipesTableAnnotationComposer(
+              $db: $db,
+              $table: $db.recipes,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
 }
 
-class $$RecipeGroceryItemsTableTableManager extends RootTableManager<
+class $$RecipeIngredientsTableTableManager extends RootTableManager<
     _$AppDatabase,
-    $RecipeGroceryItemsTable,
-    RecipeGroceryItemData,
-    $$RecipeGroceryItemsTableFilterComposer,
-    $$RecipeGroceryItemsTableOrderingComposer,
-    $$RecipeGroceryItemsTableAnnotationComposer,
-    $$RecipeGroceryItemsTableCreateCompanionBuilder,
-    $$RecipeGroceryItemsTableUpdateCompanionBuilder,
-    (RecipeGroceryItemData, $$RecipeGroceryItemsTableReferences),
-    RecipeGroceryItemData,
-    PrefetchHooks Function({bool recipeId, bool groceryItemId})> {
-  $$RecipeGroceryItemsTableTableManager(
-      _$AppDatabase db, $RecipeGroceryItemsTable table)
+    $RecipeIngredientsTable,
+    RecipeIngredientsData,
+    $$RecipeIngredientsTableFilterComposer,
+    $$RecipeIngredientsTableOrderingComposer,
+    $$RecipeIngredientsTableAnnotationComposer,
+    $$RecipeIngredientsTableCreateCompanionBuilder,
+    $$RecipeIngredientsTableUpdateCompanionBuilder,
+    (RecipeIngredientsData, $$RecipeIngredientsTableReferences),
+    RecipeIngredientsData,
+    PrefetchHooks Function({bool groceryItemId, bool recipeId})> {
+  $$RecipeIngredientsTableTableManager(
+      _$AppDatabase db, $RecipeIngredientsTable table)
       : super(TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
-              $$RecipeGroceryItemsTableFilterComposer($db: db, $table: table),
+              $$RecipeIngredientsTableFilterComposer($db: db, $table: table),
           createOrderingComposer: () =>
-              $$RecipeGroceryItemsTableOrderingComposer($db: db, $table: table),
+              $$RecipeIngredientsTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
-              $$RecipeGroceryItemsTableAnnotationComposer(
+              $$RecipeIngredientsTableAnnotationComposer(
                   $db: db, $table: table),
           updateCompanionCallback: ({
-            Value<int?> recipeId = const Value.absent(),
-            Value<int?> groceryItemId = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
+            Value<int> id = const Value.absent(),
+            Value<int> groceryItemId = const Value.absent(),
+            Value<int> recipeId = const Value.absent(),
           }) =>
-              RecipeGroceryItemsCompanion(
-            recipeId: recipeId,
+              RecipeIngredientsCompanion(
+            id: id,
             groceryItemId: groceryItemId,
-            rowid: rowid,
+            recipeId: recipeId,
           ),
           createCompanionCallback: ({
-            Value<int?> recipeId = const Value.absent(),
-            Value<int?> groceryItemId = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
+            Value<int> id = const Value.absent(),
+            required int groceryItemId,
+            required int recipeId,
           }) =>
-              RecipeGroceryItemsCompanion.insert(
-            recipeId: recipeId,
+              RecipeIngredientsCompanion.insert(
+            id: id,
             groceryItemId: groceryItemId,
-            rowid: rowid,
+            recipeId: recipeId,
           ),
           withReferenceMapper: (p0) => p0
               .map((e) => (
                     e.readTable(table),
-                    $$RecipeGroceryItemsTableReferences(db, table, e)
+                    $$RecipeIngredientsTableReferences(db, table, e)
                   ))
               .toList(),
-          prefetchHooksCallback: ({recipeId = false, groceryItemId = false}) {
+          prefetchHooksCallback: ({groceryItemId = false, recipeId = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
@@ -1609,25 +1958,25 @@ class $$RecipeGroceryItemsTableTableManager extends RootTableManager<
                       dynamic,
                       dynamic,
                       dynamic>>(state) {
+                if (groceryItemId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.groceryItemId,
+                    referencedTable: $$RecipeIngredientsTableReferences
+                        ._groceryItemIdTable(db),
+                    referencedColumn: $$RecipeIngredientsTableReferences
+                        ._groceryItemIdTable(db)
+                        .id,
+                  ) as T;
+                }
                 if (recipeId) {
                   state = state.withJoin(
                     currentTable: table,
                     currentColumn: table.recipeId,
                     referencedTable:
-                        $$RecipeGroceryItemsTableReferences._recipeIdTable(db),
-                    referencedColumn: $$RecipeGroceryItemsTableReferences
+                        $$RecipeIngredientsTableReferences._recipeIdTable(db),
+                    referencedColumn: $$RecipeIngredientsTableReferences
                         ._recipeIdTable(db)
-                        .id,
-                  ) as T;
-                }
-                if (groceryItemId) {
-                  state = state.withJoin(
-                    currentTable: table,
-                    currentColumn: table.groceryItemId,
-                    referencedTable: $$RecipeGroceryItemsTableReferences
-                        ._groceryItemIdTable(db),
-                    referencedColumn: $$RecipeGroceryItemsTableReferences
-                        ._groceryItemIdTable(db)
                         .id,
                   ) as T;
                 }
@@ -1642,18 +1991,18 @@ class $$RecipeGroceryItemsTableTableManager extends RootTableManager<
         ));
 }
 
-typedef $$RecipeGroceryItemsTableProcessedTableManager = ProcessedTableManager<
+typedef $$RecipeIngredientsTableProcessedTableManager = ProcessedTableManager<
     _$AppDatabase,
-    $RecipeGroceryItemsTable,
-    RecipeGroceryItemData,
-    $$RecipeGroceryItemsTableFilterComposer,
-    $$RecipeGroceryItemsTableOrderingComposer,
-    $$RecipeGroceryItemsTableAnnotationComposer,
-    $$RecipeGroceryItemsTableCreateCompanionBuilder,
-    $$RecipeGroceryItemsTableUpdateCompanionBuilder,
-    (RecipeGroceryItemData, $$RecipeGroceryItemsTableReferences),
-    RecipeGroceryItemData,
-    PrefetchHooks Function({bool recipeId, bool groceryItemId})>;
+    $RecipeIngredientsTable,
+    RecipeIngredientsData,
+    $$RecipeIngredientsTableFilterComposer,
+    $$RecipeIngredientsTableOrderingComposer,
+    $$RecipeIngredientsTableAnnotationComposer,
+    $$RecipeIngredientsTableCreateCompanionBuilder,
+    $$RecipeIngredientsTableUpdateCompanionBuilder,
+    (RecipeIngredientsData, $$RecipeIngredientsTableReferences),
+    RecipeIngredientsData,
+    PrefetchHooks Function({bool groceryItemId, bool recipeId})>;
 typedef $$ShoppingListsTableCreateCompanionBuilder = ShoppingListsCompanion
     Function({
   Value<int> id,
@@ -1664,6 +2013,30 @@ typedef $$ShoppingListsTableUpdateCompanionBuilder = ShoppingListsCompanion
   Value<int> id,
   Value<String?> name,
 });
+
+final class $$ShoppingListsTableReferences extends BaseReferences<_$AppDatabase,
+    $ShoppingListsTable, ShoppingListData> {
+  $$ShoppingListsTableReferences(
+      super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$ShoppingListItemsTable,
+      List<ShoppingListItemsData>> _shoppingListItemsRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.shoppingListItems,
+          aliasName: $_aliasNameGenerator(
+              db.shoppingLists.id, db.shoppingListItems.shoppingListId));
+
+  $$ShoppingListItemsTableProcessedTableManager get shoppingListItemsRefs {
+    final manager =
+        $$ShoppingListItemsTableTableManager($_db, $_db.shoppingListItems)
+            .filter((f) => f.shoppingListId.id($_item.id));
+
+    final cache =
+        $_typedResult.readTableOrNull(_shoppingListItemsRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+}
 
 class $$ShoppingListsTableFilterComposer
     extends Composer<_$AppDatabase, $ShoppingListsTable> {
@@ -1679,6 +2052,27 @@ class $$ShoppingListsTableFilterComposer
 
   ColumnFilters<String> get name => $composableBuilder(
       column: $table.name, builder: (column) => ColumnFilters(column));
+
+  Expression<bool> shoppingListItemsRefs(
+      Expression<bool> Function($$ShoppingListItemsTableFilterComposer f) f) {
+    final $$ShoppingListItemsTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.shoppingListItems,
+        getReferencedColumn: (t) => t.shoppingListId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$ShoppingListItemsTableFilterComposer(
+              $db: $db,
+              $table: $db.shoppingListItems,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
 }
 
 class $$ShoppingListsTableOrderingComposer
@@ -1711,6 +2105,28 @@ class $$ShoppingListsTableAnnotationComposer
 
   GeneratedColumn<String> get name =>
       $composableBuilder(column: $table.name, builder: (column) => column);
+
+  Expression<T> shoppingListItemsRefs<T extends Object>(
+      Expression<T> Function($$ShoppingListItemsTableAnnotationComposer a) f) {
+    final $$ShoppingListItemsTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.shoppingListItems,
+            getReferencedColumn: (t) => t.shoppingListId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$ShoppingListItemsTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.shoppingListItems,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
 }
 
 class $$ShoppingListsTableTableManager extends RootTableManager<
@@ -1722,12 +2138,9 @@ class $$ShoppingListsTableTableManager extends RootTableManager<
     $$ShoppingListsTableAnnotationComposer,
     $$ShoppingListsTableCreateCompanionBuilder,
     $$ShoppingListsTableUpdateCompanionBuilder,
-    (
-      ShoppingListData,
-      BaseReferences<_$AppDatabase, $ShoppingListsTable, ShoppingListData>
-    ),
+    (ShoppingListData, $$ShoppingListsTableReferences),
     ShoppingListData,
-    PrefetchHooks Function()> {
+    PrefetchHooks Function({bool shoppingListItemsRefs})> {
   $$ShoppingListsTableTableManager(_$AppDatabase db, $ShoppingListsTable table)
       : super(TableManagerState(
           db: db,
@@ -1755,9 +2168,36 @@ class $$ShoppingListsTableTableManager extends RootTableManager<
             name: name,
           ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map((e) => (
+                    e.readTable(table),
+                    $$ShoppingListsTableReferences(db, table, e)
+                  ))
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback: ({shoppingListItemsRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (shoppingListItemsRefs) db.shoppingListItems
+              ],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (shoppingListItemsRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$ShoppingListsTableReferences
+                            ._shoppingListItemsRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$ShoppingListsTableReferences(db, table, p0)
+                                .shoppingListItemsRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems
+                                .where((e) => e.shoppingListId == item.id),
+                        typedResults: items)
+                ];
+              },
+            );
+          },
         ));
 }
 
@@ -1770,12 +2210,326 @@ typedef $$ShoppingListsTableProcessedTableManager = ProcessedTableManager<
     $$ShoppingListsTableAnnotationComposer,
     $$ShoppingListsTableCreateCompanionBuilder,
     $$ShoppingListsTableUpdateCompanionBuilder,
-    (
-      ShoppingListData,
-      BaseReferences<_$AppDatabase, $ShoppingListsTable, ShoppingListData>
-    ),
+    (ShoppingListData, $$ShoppingListsTableReferences),
     ShoppingListData,
-    PrefetchHooks Function()>;
+    PrefetchHooks Function({bool shoppingListItemsRefs})>;
+typedef $$ShoppingListItemsTableCreateCompanionBuilder
+    = ShoppingListItemsCompanion Function({
+  Value<int> id,
+  required int groceryItemId,
+  required int shoppingListId,
+});
+typedef $$ShoppingListItemsTableUpdateCompanionBuilder
+    = ShoppingListItemsCompanion Function({
+  Value<int> id,
+  Value<int> groceryItemId,
+  Value<int> shoppingListId,
+});
+
+final class $$ShoppingListItemsTableReferences extends BaseReferences<
+    _$AppDatabase, $ShoppingListItemsTable, ShoppingListItemsData> {
+  $$ShoppingListItemsTableReferences(
+      super.$_db, super.$_table, super.$_typedResult);
+
+  static $GroceryItemsTable _groceryItemIdTable(_$AppDatabase db) =>
+      db.groceryItems.createAlias($_aliasNameGenerator(
+          db.shoppingListItems.groceryItemId, db.groceryItems.id));
+
+  $$GroceryItemsTableProcessedTableManager get groceryItemId {
+    final manager = $$GroceryItemsTableTableManager($_db, $_db.groceryItems)
+        .filter((f) => f.id($_item.groceryItemId));
+    final item = $_typedResult.readTableOrNull(_groceryItemIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+
+  static $ShoppingListsTable _shoppingListIdTable(_$AppDatabase db) =>
+      db.shoppingLists.createAlias($_aliasNameGenerator(
+          db.shoppingListItems.shoppingListId, db.shoppingLists.id));
+
+  $$ShoppingListsTableProcessedTableManager get shoppingListId {
+    final manager = $$ShoppingListsTableTableManager($_db, $_db.shoppingLists)
+        .filter((f) => f.id($_item.shoppingListId));
+    final item = $_typedResult.readTableOrNull(_shoppingListIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+}
+
+class $$ShoppingListItemsTableFilterComposer
+    extends Composer<_$AppDatabase, $ShoppingListItemsTable> {
+  $$ShoppingListItemsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  $$GroceryItemsTableFilterComposer get groceryItemId {
+    final $$GroceryItemsTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.groceryItemId,
+        referencedTable: $db.groceryItems,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$GroceryItemsTableFilterComposer(
+              $db: $db,
+              $table: $db.groceryItems,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$ShoppingListsTableFilterComposer get shoppingListId {
+    final $$ShoppingListsTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.shoppingListId,
+        referencedTable: $db.shoppingLists,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$ShoppingListsTableFilterComposer(
+              $db: $db,
+              $table: $db.shoppingLists,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$ShoppingListItemsTableOrderingComposer
+    extends Composer<_$AppDatabase, $ShoppingListItemsTable> {
+  $$ShoppingListItemsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  $$GroceryItemsTableOrderingComposer get groceryItemId {
+    final $$GroceryItemsTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.groceryItemId,
+        referencedTable: $db.groceryItems,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$GroceryItemsTableOrderingComposer(
+              $db: $db,
+              $table: $db.groceryItems,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$ShoppingListsTableOrderingComposer get shoppingListId {
+    final $$ShoppingListsTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.shoppingListId,
+        referencedTable: $db.shoppingLists,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$ShoppingListsTableOrderingComposer(
+              $db: $db,
+              $table: $db.shoppingLists,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$ShoppingListItemsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ShoppingListItemsTable> {
+  $$ShoppingListItemsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  $$GroceryItemsTableAnnotationComposer get groceryItemId {
+    final $$GroceryItemsTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.groceryItemId,
+        referencedTable: $db.groceryItems,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$GroceryItemsTableAnnotationComposer(
+              $db: $db,
+              $table: $db.groceryItems,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$ShoppingListsTableAnnotationComposer get shoppingListId {
+    final $$ShoppingListsTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.shoppingListId,
+        referencedTable: $db.shoppingLists,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$ShoppingListsTableAnnotationComposer(
+              $db: $db,
+              $table: $db.shoppingLists,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$ShoppingListItemsTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $ShoppingListItemsTable,
+    ShoppingListItemsData,
+    $$ShoppingListItemsTableFilterComposer,
+    $$ShoppingListItemsTableOrderingComposer,
+    $$ShoppingListItemsTableAnnotationComposer,
+    $$ShoppingListItemsTableCreateCompanionBuilder,
+    $$ShoppingListItemsTableUpdateCompanionBuilder,
+    (ShoppingListItemsData, $$ShoppingListItemsTableReferences),
+    ShoppingListItemsData,
+    PrefetchHooks Function({bool groceryItemId, bool shoppingListId})> {
+  $$ShoppingListItemsTableTableManager(
+      _$AppDatabase db, $ShoppingListItemsTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ShoppingListItemsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ShoppingListItemsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ShoppingListItemsTableAnnotationComposer(
+                  $db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int> groceryItemId = const Value.absent(),
+            Value<int> shoppingListId = const Value.absent(),
+          }) =>
+              ShoppingListItemsCompanion(
+            id: id,
+            groceryItemId: groceryItemId,
+            shoppingListId: shoppingListId,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required int groceryItemId,
+            required int shoppingListId,
+          }) =>
+              ShoppingListItemsCompanion.insert(
+            id: id,
+            groceryItemId: groceryItemId,
+            shoppingListId: shoppingListId,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$ShoppingListItemsTableReferences(db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: (
+              {groceryItemId = false, shoppingListId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (groceryItemId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.groceryItemId,
+                    referencedTable: $$ShoppingListItemsTableReferences
+                        ._groceryItemIdTable(db),
+                    referencedColumn: $$ShoppingListItemsTableReferences
+                        ._groceryItemIdTable(db)
+                        .id,
+                  ) as T;
+                }
+                if (shoppingListId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.shoppingListId,
+                    referencedTable: $$ShoppingListItemsTableReferences
+                        ._shoppingListIdTable(db),
+                    referencedColumn: $$ShoppingListItemsTableReferences
+                        ._shoppingListIdTable(db)
+                        .id,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ));
+}
+
+typedef $$ShoppingListItemsTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $ShoppingListItemsTable,
+    ShoppingListItemsData,
+    $$ShoppingListItemsTableFilterComposer,
+    $$ShoppingListItemsTableOrderingComposer,
+    $$ShoppingListItemsTableAnnotationComposer,
+    $$ShoppingListItemsTableCreateCompanionBuilder,
+    $$ShoppingListItemsTableUpdateCompanionBuilder,
+    (ShoppingListItemsData, $$ShoppingListItemsTableReferences),
+    ShoppingListItemsData,
+    PrefetchHooks Function({bool groceryItemId, bool shoppingListId})>;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -1784,8 +2538,10 @@ class $AppDatabaseManager {
       $$GroceryItemsTableTableManager(_db, _db.groceryItems);
   $$RecipesTableTableManager get recipes =>
       $$RecipesTableTableManager(_db, _db.recipes);
-  $$RecipeGroceryItemsTableTableManager get recipeGroceryItems =>
-      $$RecipeGroceryItemsTableTableManager(_db, _db.recipeGroceryItems);
+  $$RecipeIngredientsTableTableManager get recipeIngredients =>
+      $$RecipeIngredientsTableTableManager(_db, _db.recipeIngredients);
   $$ShoppingListsTableTableManager get shoppingLists =>
       $$ShoppingListsTableTableManager(_db, _db.shoppingLists);
+  $$ShoppingListItemsTableTableManager get shoppingListItems =>
+      $$ShoppingListItemsTableTableManager(_db, _db.shoppingListItems);
 }

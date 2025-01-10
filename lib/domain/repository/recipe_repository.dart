@@ -9,7 +9,7 @@ class RecipeRepository extends _$RecipeRepository {
   late final AppDatabase db = ref.read(databaseProvider);
 
   @override
-  Stream<List<RecipeData>> build() {
+  Stream<List<RecipesData>> build() {
     return db.select(db.recipes).watch();
   }
 

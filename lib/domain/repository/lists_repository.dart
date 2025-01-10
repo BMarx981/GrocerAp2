@@ -33,8 +33,17 @@ class ListsRepository extends _$ListsRepository {
     });
   }
 
+  Future<List<GroceryItemData>> getItemsForShoppingList(int shoppingListId) {
+    final query = db.select(db.groceryItems).join([
+      innerJoin(db.shoppingLists,
+          db.shoppingListItems.groceryItemId.equalsExp(db.groceryItems.id))
+    ])
+      ..where(db.shoppingListItems.shoppingListId.equals(shoppingListId));
+
+    return query.map((row) => row.readTable(db.groceryItems)).get();
+  }
+
   Future<int> addToShoppingList(int groceryItemId, String? name) async {
-    // String json = 
     return db.into(db.shoppingLists).insert(ShoppingListsCompanion.insert(
         id: Value(groceryItemId), name: Value(name)));
   }
@@ -59,11 +68,21 @@ class ListsRepository extends _$ListsRepository {
     return result;
   }
 
-  // Future<int> addItemToList(int listId, int itemId, String name) {
-  //   return db
-  //       .into(db.shoppingLists)
-  //       .insert(ShoppingListData(name: name, listId: listId, itemId: itemId));
-  // }
+  Future<List<GroceryItemData>> getItemsForRecipe(int recipeId) {
+    final query = db.select(db.groceryItems).join([
+      innerJoin(db.recipeIngredients,
+          db.recipeIngredients.groceryItemId.equalsExp(db.groceryItems.id))
+    ])
+      ..where(db.recipeIngredients.recipeId.equals(recipeId));
+
+    return query.map((row) => row.readTable(db.groceryItems)).get();
+  }
+
+  Future<int> addItemToList(int listId, int itemId, String name) {
+    return db
+        .into(db.shoppingLists)
+        .insert(ShoppingListData(name: name, id: listId));
+  }
 
   Future updateList(int id, {String? name}) {
     final update = (db.update(db.groceryItems)..where((t) => t.id.equals(id)))
