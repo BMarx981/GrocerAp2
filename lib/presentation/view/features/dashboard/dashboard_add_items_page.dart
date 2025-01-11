@@ -74,9 +74,10 @@ class ListOfItemsWidget extends ConsumerWidget {
                     return ElevatedButton(
                         child: Text(data[index].name!),
                         onPressed: () {
-                          ref
-                              .read(listsRepositoryProvider.notifier)
-                              .addToShoppingList(listId, name);
+                          // TODO : fix this.
+                          // ref
+                          //     .read(listsRepositoryProvider.notifier)
+                          //     .addToShoppingList(listId, name);
                         });
                   }),
             ),

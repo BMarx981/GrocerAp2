@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:grocerapp/domain/models/shopping_list_items.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:sqlite3/sqlite3.dart';
@@ -29,32 +30,13 @@ class Recipes extends Table {
 class ShoppingLists extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text().nullable()();
-}
-
-@DataClassName('ShoppingListItemsData')
-class ShoppingListItems extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  IntColumn get groceryItemId =>
-      integer().references(GroceryItems, #id)(); // Foreign key to GroceryItems
-  IntColumn get shoppingListId => integer()
-      .references(ShoppingLists, #id)(); // Foreign key to ShoppingLists
-}
-
-@DataClassName('RecipeIngredientsData')
-class RecipeIngredients extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  IntColumn get groceryItemId =>
-      integer().references(GroceryItems, #id)(); // Foreign key to GroceryItems
-  IntColumn get recipeId =>
-      integer().references(Recipes, #id)(); // Foreign key to ShoppingLists
+  TextColumn get items => text().map(ShoppingListItems.converter)();
 }
 
 @DriftDatabase(tables: [
   GroceryItems,
-  RecipeIngredients,
   Recipes,
   ShoppingLists,
-  ShoppingListItems
 ])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
