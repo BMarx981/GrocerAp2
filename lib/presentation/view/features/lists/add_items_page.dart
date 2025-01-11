@@ -18,7 +18,7 @@ class AddItemsPage extends ConsumerWidget {
           children: [
             Expanded(
                 child: ListOfItemsWidget(
-                    listId: listData.id, name: listData.name!)),
+                    listId: listData.id, name: listData.name)),
             Expanded(
               child: ListOfSelectedItems(listId: listData.id),
             )
@@ -33,19 +33,23 @@ class ListOfSelectedItems extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final streamOfItems = ref
+    final provider = ref
         .watch(listsRepositoryProvider.notifier)
         .fetchGroceryItemsForList(listId);
     return StreamBuilder(
-        stream: streamOfItems,
+        stream: provider,
         builder: (context, snapshot) {
-          return Container(
-            decoration: BoxDecoration(color: Colors.grey.shade300),
-            child: ListView.builder(
-                itemCount: snapshot.data?.length ?? 0,
-                itemBuilder: (context, index) {
-                  return Text(snapshot.requireData[index].name!);
-                }),
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(color: Colors.grey.shade300),
+              child: ListView.builder(
+                  itemCount: snapshot.data?.length ?? 0,
+                  itemBuilder: (context, index) {
+                    return Text(snapshot.requireData[index].name!);
+                  }),
+            ),
           );
         });
   }
@@ -71,13 +75,16 @@ class ListOfItemsWidget extends ConsumerWidget {
               child: ListView.builder(
                   itemCount: data.length,
                   itemBuilder: (context, index) {
-                    return ElevatedButton(
-                        child: Text(data[index].name!),
-                        onPressed: () {
-                          ref
-                              .read(listsRepositoryProvider.notifier)
-                              .addToShoppingList(listId, name);
-                        });
+                    return Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 2, 8, 0),
+                      child: ElevatedButton(
+                          child: Text(data[index].name!),
+                          onPressed: () {
+                            ref
+                                .read(listsRepositoryProvider.notifier)
+                                .addItemToShoppingList(data[index].id, listId);
+                          }),
+                    );
                   }),
             ),
           );

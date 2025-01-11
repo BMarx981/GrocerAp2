@@ -35,7 +35,7 @@ class DetailsTileWidget extends ConsumerWidget {
             onTap: () => Beamer.of(context).beamToNamed('/add_items_to_list',
                 popToNamed: '/lists', data: data),
             child: Text(
-              data.name!,
+              data.name,
               style: const TextStyle(
                 color: Colors.white,
               ),

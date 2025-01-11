@@ -14,22 +14,25 @@ class ListsRepository extends _$ListsRepository {
   }
 
   Stream<List<GroceryItemData>> fetchGroceryItemsForList(int listId) {
-    final query = (db.select(db.groceryItems).join([
-      innerJoin(
-          db.shoppingLists, db.shoppingLists.id.equalsExp(db.groceryItems.id))
+    final query = db.select(db.groceryItems).join([
+      innerJoin(db.shoppingListItems,
+          db.shoppingListItems.groceryItemId.equalsExp(db.groceryItems.id))
     ])
-      ..where(db.shoppingLists.id.equals(listId)));
+      ..where(db.shoppingListItems.shoppingListId.equals(listId));
 
     return query.watch().map((rows) {
-      return rows.map((row) {
-        final r = row.readTable(db.groceryItems);
-        return GroceryItemData(
-            id: r.id,
-            name: r.name,
-            price: r.price,
-            quantity: r.quantity,
-            storeName: r.storeName);
-      }).toList();
+      return rows
+          .map((row) {
+            final r = row.readTable(db.groceryItems);
+            return GroceryItemData(
+                id: r.id,
+                name: r.name,
+                price: r.price,
+                quantity: r.quantity,
+                storeName: r.storeName);
+          })
+          .toSet()
+          .toList();
     });
   }
 
@@ -43,9 +46,18 @@ class ListsRepository extends _$ListsRepository {
     return query.map((row) => row.readTable(db.groceryItems)).get();
   }
 
-  Future<int> addToShoppingList(int groceryItemId, String name) {
-    return db.into(db.shoppingLists).insert(
-        ShoppingListsCompanion.insert(id: Value(groceryItemId), name: name));
+  // Future<int> addToShoppingList(int groceryItemId, String name) {
+  //   return db.into(db.shoppingLists).insert(
+  //       ShoppingListsCompanion.insert(id: Value(groceryItemId), name: name));
+  // }
+
+  Future<int> addItemToShoppingList(int groceryItemId, int shoppingListId) {
+    return db.into(db.shoppingListItems).insert(
+          ShoppingListItemsCompanion(
+            groceryItemId: Value(groceryItemId),
+            shoppingListId: Value(shoppingListId),
+          ),
+        );
   }
 
   Future<List<GroceryItemData>> getShoppingListItems() async {
