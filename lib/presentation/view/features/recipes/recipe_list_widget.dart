@@ -20,7 +20,7 @@ class RecipeListWidget extends ConsumerWidget {
         return Expanded(
             child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: ListView.separated(
+          child: ListView.builder(
             itemCount: data.length,
             itemBuilder: (context, index) {
               return Row(
@@ -34,8 +34,6 @@ class RecipeListWidget extends ConsumerWidget {
                 ],
               );
             },
-            separatorBuilder: (BuildContext context, int index) =>
-                const Divider(),
           ),
         ));
       },

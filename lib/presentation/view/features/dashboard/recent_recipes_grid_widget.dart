@@ -1,6 +1,7 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:grocerapp/application/bottom_nav_provider/bottom_nav_provider.dart';
 import 'package:grocerapp/domain/repository/recipe_repository.dart';
 import 'package:grocerapp/presentation/common_widgets/add_recipe_dialog.dart';
 import 'package:grocerapp/presentation/common_widgets/error_message_widget.dart';
@@ -59,6 +60,9 @@ class _RecentRecipesGridWidgetState
                               itemBuilder: (BuildContext context, int index) {
                                 return GestureDetector(
                                   onTap: () {
+                                    ref
+                                        .read(bottomNavProvider.notifier)
+                                        .bottomNavSelected(2);
                                     Beamer.of(context).beamToNamed(
                                       '/recipes',
                                       data: data[index],

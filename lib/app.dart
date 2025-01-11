@@ -17,12 +17,13 @@ class App extends StatelessWidget {
       '/': (context, state, data) => const LoginPage(),
       '/dashboard': (context, state, data) => const DashboardPage(),
       '/lists': (context, state, data) => ListsPage(),
-      '/recipes': (context, state, data) => const RecipesPage(),
+      '/recipes': (context, state, data) => RecipesPage(),
       '/add_items_to_list': (context, state, data) =>
           AddItemsPage(listData: data as ShoppingListData),
-      '/recipe_items_list': (context, state, data) => RecipeDetailPage(
-            listData: data as RecipeData,
-          ),
+      '/recipe_items_list': (context, state, data) =>
+          RecipeDetailPage(listData: data as RecipeData),
+      '/recipe_details_page': (context, state, data) =>
+          RecipeDetailPage(listData: data as RecipeData),
     }).call,
   );
   // This widget is the root of your application.
@@ -38,7 +39,7 @@ class App extends StatelessWidget {
         routerDelegate: routerDelegate,
         backButtonDispatcher: BeamerBackButtonDispatcher(
           delegate: routerDelegate,
-          alwaysBeamBack: true,
+          alwaysBeamBack: false,
           fallbackToBeamBack: false,
         ),
       ),
