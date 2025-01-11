@@ -32,7 +32,7 @@ class AddRecipeWidget extends StatelessWidget {
                   onPressed: () {
                     ref
                         .read(recipeRepositoryProvider.notifier)
-                        .addRecipe(name: nameController.text);
+                        .addRecipe(nameController.text);
 
                     Navigator.pop(context);
                   },

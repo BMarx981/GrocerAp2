@@ -36,7 +36,7 @@ class ListsRepository extends _$ListsRepository {
     });
   }
 
-  Future<List<GroceryItemData>> getItemsForShoppingList(int shoppingListId) {
+  Future<List<GroceryItemData>> getItemsInShoppingList(int shoppingListId) {
     final query = db.select(db.groceryItems).join([
       innerJoin(db.shoppingListItems,
           db.shoppingListItems.groceryItemId.equalsExp(db.groceryItems.id))
@@ -46,11 +46,6 @@ class ListsRepository extends _$ListsRepository {
     return query.map((row) => row.readTable(db.groceryItems)).get();
   }
 
-  // Future<int> addToShoppingList(int groceryItemId, String name) {
-  //   return db.into(db.shoppingLists).insert(
-  //       ShoppingListsCompanion.insert(id: Value(groceryItemId), name: name));
-  // }
-
   Future<int> addItemToShoppingList(int groceryItemId, int shoppingListId) {
     return db.into(db.shoppingListItems).insert(
           ShoppingListItemsCompanion(
@@ -58,17 +53,6 @@ class ListsRepository extends _$ListsRepository {
             shoppingListId: Value(shoppingListId),
           ),
         );
-  }
-
-  Future<List<GroceryItemData>> getShoppingListItems() async {
-    final query = db.select(db.shoppingLists).join([
-      leftOuterJoin(
-          db.groceryItems, db.groceryItems.id.equalsExp(db.shoppingLists.id)),
-    ]);
-
-    final results = await query.get();
-
-    return results.map((row) => row.readTable(db.groceryItems)).toList();
   }
 
   Future<int> addList(String name) async {
@@ -80,15 +64,9 @@ class ListsRepository extends _$ListsRepository {
     return result;
   }
 
-  // Future<int> addItemToList(int listId, int itemId, String name) {
-  //   return db
-  //       .into(db.shoppingLists)
-  //       .insert(ShoppingListData(name: name, listId: listId, itemId: itemId));
-  // }
-
-  Future updateList(int id, {String? name}) {
-    final update = (db.update(db.groceryItems)..where((t) => t.id.equals(id)))
-        .write(GroceryItemsCompanion(name: Value(name)));
+  Future updateList(int id, String name) {
+    final update = (db.update(db.shoppingLists)..where((t) => t.id.equals(id)))
+        .write(ShoppingListsCompanion(name: Value(name)));
     return update;
   }
 
