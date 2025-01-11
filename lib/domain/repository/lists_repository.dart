@@ -28,15 +28,24 @@ class ListsRepository extends _$ListsRepository {
             name: r.name,
             price: r.price,
             quantity: r.quantity,
-            location: r.location);
+            storeName: r.storeName);
       }).toList();
     });
   }
 
-  Future<int> addToShoppingList(int groceryItemId, String? name) async {
-    // String json = 
-    return db.into(db.shoppingLists).insert(ShoppingListsCompanion.insert(
-        id: Value(groceryItemId), name: Value(name)));
+  Future<List<GroceryItemData>> getItemsForShoppingList(int shoppingListId) {
+    final query = db.select(db.groceryItems).join([
+      innerJoin(db.shoppingListItems,
+          db.shoppingListItems.groceryItemId.equalsExp(db.groceryItems.id))
+    ])
+      ..where(db.shoppingListItems.shoppingListId.equals(shoppingListId));
+
+    return query.map((row) => row.readTable(db.groceryItems)).get();
+  }
+
+  Future<int> addToShoppingList(int groceryItemId, String name) {
+    return db.into(db.shoppingLists).insert(
+        ShoppingListsCompanion.insert(id: Value(groceryItemId), name: name));
   }
 
   Future<List<GroceryItemData>> getShoppingListItems() async {

@@ -23,7 +23,7 @@ class GroceryItemRepository extends _$GroceryItemRepository {
         name: Value(name),
         quantity: Value(quantity),
         price: Value(price),
-        location: Value(location)));
+        storeName: Value(location)));
     return f;
   }
 
@@ -34,7 +34,7 @@ class GroceryItemRepository extends _$GroceryItemRepository {
             name: Value(name),
             quantity: Value(quantity),
             price: Value(price),
-            location: Value(location)));
+            storeName: Value(location)));
     return update;
   }
 

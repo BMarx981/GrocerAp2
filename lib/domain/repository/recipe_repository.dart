@@ -14,6 +14,17 @@ class RecipeRepository extends _$RecipeRepository {
   }
 
   Future<int> addRecipe({String? name}) {
-    return db.into(db.recipes).insert(RecipesCompanion(name: Value(name)));
+    return db
+        .into(db.recipes)
+        .insert(RecipesCompanion(name: Value(name ?? "")));
+  }
+
+  Future<int> addItemToRecipe(int groceryItemId, int recipeId) {
+    return db.into(db.recipeItems).insert(
+          RecipeItemsCompanion(
+            groceryItemId: Value(groceryItemId),
+            recipeId: Value(recipeId),
+          ),
+        );
   }
 }

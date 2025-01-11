@@ -96,7 +96,7 @@ class RecentItemsGridWidget extends ConsumerWidget {
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Text(
-                                                "Store: ${data[index].location.toString()}"),
+                                                "Store: ${data[index].storeName.toString()}"),
                                           ),
                                         ]),
                                       ),

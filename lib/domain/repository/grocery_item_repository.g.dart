@@ -7,7 +7,7 @@ part of 'grocery_item_repository.dart';
 // **************************************************************************
 
 String _$groceryItemRepositoryHash() =>
-    r'91ce2d36ab003ba4b77f24c6c13a512044647d0d';
+    r'a568c0a9aeba84d0ed01fe55f80d804a88339acd';
 
 /// See also [GroceryItemRepository].
 @ProviderFor(GroceryItemRepository)

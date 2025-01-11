@@ -14,7 +14,7 @@ class AddItemsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
         appBar: GrocerAppbar(title: "Add Items to ${listData.name}"),
-        body: Row(
+        body: Column(
           children: [
             Expanded(
                 child: ListOfItemsWidget(

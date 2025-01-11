@@ -13,45 +13,46 @@ part 'database.g.dart';
 @DataClassName('GroceryItemData')
 class GroceryItems extends Table {
   IntColumn get id => integer().autoIncrement()();
-  TextColumn get name => text().customConstraint('UNIQUE').nullable()();
-  IntColumn get quantity => integer().nullable()();
+  TextColumn get name => text().nullable()();
   RealColumn get price => real().nullable()();
-  TextColumn get location => text().nullable()();
+  IntColumn get quantity =>
+      integer().nullable().withDefault(const Constant(1))();
+  TextColumn get storeName => text().nullable()();
 }
 
 @DataClassName('RecipeData')
 class Recipes extends Table {
+  TextColumn get name => text()();
   IntColumn get id => integer().autoIncrement()();
-  TextColumn get name => text().customConstraint('UNIQUE').nullable()();
 }
 
-@DataClassName('ListRefData')
-class ListRef extends Table {
-  IntColumn get listId =>
-      integer().customConstraint('REFERENCES shopping_lists(id)').nullable()();
-  IntColumn get itemId =>
-      integer().customConstraint('REFERENCES grocery_items(id)').nullable()();
+@DataClassName('ShoppingListItemsData')
+class ShoppingListItems extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get groceryItemId => integer().references(GroceryItems, #id)();
+  IntColumn get shoppingListId => integer().references(ShoppingLists, #id)();
 }
 
 @DataClassName('ShoppingListData')
 class ShoppingLists extends Table {
   IntColumn get id => integer().autoIncrement()();
-  TextColumn get name => text().nullable()();
+  TextColumn get name => text()();
 }
 
 @DataClassName('RecipeGroceryItemData')
-class RecipeGroceryItems extends Table {
-  IntColumn get recipeId =>
-      integer().customConstraint('REFERENCES recipes(id)').nullable()();
-  IntColumn get groceryItemId =>
-      integer().customConstraint('REFERENCES grocery_items(id)').nullable()();
-
-  @override
-  Set<Column> get primaryKey => {recipeId, groceryItemId};
+class RecipeItems extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get groceryItemId => integer().references(GroceryItems, #id)();
+  IntColumn get recipeId => integer().references(Recipes, #id)();
 }
 
-@DriftDatabase(
-    tables: [GroceryItems, RecipeGroceryItems, Recipes, ShoppingLists])
+@DriftDatabase(tables: [
+  GroceryItems,
+  RecipeItems,
+  Recipes,
+  ShoppingLists,
+  ShoppingListItems
+])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 

@@ -19,7 +19,7 @@ class EditItemWidget extends StatelessWidget {
     nameController.text = data.name!;
     priceController.text = data.price!.toString();
     quantityController.text = data.quantity!.toString();
-    storeController.text = data.location!;
+    storeController.text = data.storeName!;
     return Consumer(
       builder: (BuildContext context, WidgetRef ref, Widget? child) {
         return AlertDialog(

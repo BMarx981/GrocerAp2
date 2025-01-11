@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grocerapp/data/source/database/database.dart';
-import 'package:grocerapp/presentation/view/features/dashboard/dashboard_add_items_page.dart';
+import 'package:grocerapp/presentation/view/features/lists/add_items_page.dart';
 import 'package:grocerapp/presentation/view/features/dashboard/dashboard_page.dart';
 import 'package:grocerapp/presentation/view/features/lists/lists_page.dart';
 import 'package:grocerapp/presentation/view/features/login/login_page.dart';
