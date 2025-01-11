@@ -7,6 +7,7 @@ import 'package:grocerapp/presentation/view/features/lists/lists_page.dart';
 import 'package:grocerapp/presentation/view/features/login/login_page.dart';
 import 'package:beamer/beamer.dart';
 import 'package:grocerapp/presentation/view/features/recipes/recipes.dart';
+import 'package:grocerapp/presentation/view/features/recipes/recipe_detail_page.dart';
 
 class App extends StatelessWidget {
   App({super.key});
@@ -19,9 +20,9 @@ class App extends StatelessWidget {
       '/recipes': (context, state, data) => const RecipesPage(),
       '/add_items_to_list': (context, state, data) =>
           AddItemsPage(listData: data as ShoppingListData),
-      // '/shopping_list_detail': (context, state, data) => ShoppingListDetailView(
-      //       data: data as ShoppingListData,
-      // ),
+      '/recipe_items_list': (context, state, data) => RecipeDetailPage(
+            listData: data as RecipeData,
+          ),
     }).call,
   );
   // This widget is the root of your application.

@@ -1,3 +1,4 @@
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grocerapp/domain/repository/recipe_repository.dart';
@@ -31,7 +32,7 @@ class _RecentRecipesGridWidgetState
           child: Container(
             height: 100,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Colors.lightBlue.withValues(alpha: .7),
               border: Border.all(color: Colors.black),
               borderRadius: BorderRadius.circular(16),
             ),
@@ -54,7 +55,42 @@ class _RecentRecipesGridWidgetState
                           child: ListView.builder(
                             itemCount: data.length,
                             itemBuilder: (BuildContext context, int index) {
-                              return Text(data[index].name!);
+                              return GestureDetector(
+                                onTap: () {
+                                  Beamer.of(context).beamToNamed(
+                                    '/recipes',
+                                    data: data[index],
+                                    popToNamed: '/dashboard',
+                                    transitionDelegate:
+                                        const DefaultTransitionDelegate(),
+                                  );
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(2.0),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+                                            decoration: BoxDecoration(
+                                              gradient: LinearGradient(colors: [
+                                                Colors.white
+                                                    .withValues(alpha: .8),
+                                                Colors.white
+                                                    .withValues(alpha: .6)
+                                              ]),
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(25),
+                                              border: Border.all(
+                                                  width: 2,
+                                                  color: Colors.white),
+                                            ),
+                                            child: Text(data[index].name)),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
                             },
                           ),
                         ),

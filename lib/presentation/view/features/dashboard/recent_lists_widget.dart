@@ -72,15 +72,24 @@ class RecentListsGridWidget extends ConsumerWidget {
                                           Expanded(
                                             child: Container(
                                               decoration: BoxDecoration(
+                                                gradient:
+                                                    LinearGradient(colors: [
+                                                  Colors.white
+                                                      .withValues(alpha: .8),
+                                                  Colors.white
+                                                      .withValues(alpha: .6)
+                                                ]),
                                                 color: Colors.white,
                                                 borderRadius:
                                                     BorderRadius.circular(25),
-                                                border: Border.all(width: 2),
+                                                border: Border.all(
+                                                    width: 2,
+                                                    color: Colors.white),
                                               ),
                                               child: Padding(
                                                 padding:
                                                     const EdgeInsets.all(8.0),
-                                                child: Text(data[index].name!),
+                                                child: Text(data[index].name),
                                               ),
                                             ),
                                           ),

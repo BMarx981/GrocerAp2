@@ -13,7 +13,7 @@ class RecipeRepository extends _$RecipeRepository {
     return db.select(db.recipes).watch();
   }
 
-  Stream<List<GroceryItemData>> fetchGroeceryItemsForRecipe(int recipeId) {
+  Stream<List<GroceryItemData>> fetchGroceryItemsForRecipe(int recipeId) {
     final query = db.select(db.groceryItems).join([
       innerJoin(db.recipeItems,
           db.recipeItems.groceryItemId.equalsExp(db.groceryItems.id))

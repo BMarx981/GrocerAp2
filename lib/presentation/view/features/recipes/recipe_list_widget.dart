@@ -1,3 +1,4 @@
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grocerapp/domain/repository/recipe_repository.dart';
@@ -24,10 +25,11 @@ class RecipeListWidget extends ConsumerWidget {
             itemBuilder: (context, index) {
               return Row(
                 children: [
-                  Expanded(child: RecipeDetailsWidget(name: data[index].name!)),
+                  Expanded(child: RecipeDetailsWidget(name: data[index].name)),
                   IconButton(
                     icon: const Icon(Icons.add),
-                    onPressed: () {},
+                    onPressed: () =>
+                        Beamer.of(context).beamToNamed('/recipe_detail_page'),
                   )
                 ],
               );

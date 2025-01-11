@@ -11,15 +11,17 @@ class RecipeDetailsWidget extends ConsumerWidget {
       children: [
         Expanded(
           child: Container(
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
-                color: Color.fromARGB(255, 17, 68, 109),
-              ),
-              child: Center(
-                  child: Padding(
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(4)),
+              color: Color.fromARGB(255, 17, 68, 109),
+            ),
+            child: Center(
+              child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(name, style: const TextStyle(color: Colors.white)),
-              ))),
+              ),
+            ),
+          ),
         ),
       ],
     );
