@@ -10,6 +10,7 @@ class RecentItemsGridWidget extends ConsumerWidget {
   const RecentItemsGridWidget({
     super.key,
   });
+  final whiteTextStyle = const TextStyle(color: Colors.white);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -22,8 +23,10 @@ class RecentItemsGridWidget extends ConsumerWidget {
             padding: const EdgeInsets.all(18.0),
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color: Colors.black, width: 3),
+                color: Colors.lightBlue.withValues(alpha: .7),
+                border: Border.all(
+                  color: Colors.black,
+                ),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Padding(
@@ -61,44 +64,57 @@ class RecentItemsGridWidget extends ConsumerWidget {
                                               .notifier)
                                           .deleteItem(data[index].id);
                                     },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                        decoration: const BoxDecoration(
-                                          color: Colors.grey,
-                                          borderRadius: BorderRadius.only(
-                                              topLeft: Radius.circular(16),
-                                              bottomRight: Radius.circular(16)),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.black,
-                                              blurRadius: 5,
-                                              offset: Offset(4, 4),
-                                            )
-                                          ],
+                                    child: Semantics(
+                                      label: 'Recent item ${data[index].name}',
+                                      hint: 'Tap here to edit this item',
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          decoration: const BoxDecoration(
+                                            color: Colors.grey,
+                                            borderRadius: BorderRadius.only(
+                                                topLeft: Radius.circular(16),
+                                                bottomRight:
+                                                    Radius.circular(16)),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.black,
+                                                blurRadius: 5,
+                                                offset: Offset(4, 4),
+                                              )
+                                            ],
+                                          ),
+                                          child: Wrap(children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                  "Name: ${data[index].name}",
+                                                  style: whiteTextStyle),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                  "Price: ${data[index].price.toString()}",
+                                                  style: whiteTextStyle),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                  "Qunatity: ${data[index].quantity.toString()}",
+                                                  style: whiteTextStyle),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                  "Store: ${data[index].storeName}",
+                                                  style: whiteTextStyle),
+                                            ),
+                                          ]),
                                         ),
-                                        child: Wrap(children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                                "Name: ${data[index].name!}"),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                                "Price: ${data[index].price.toString()}"),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                                "Qunatity: ${data[index].quantity.toString()}"),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                                "Store: ${data[index].storeName.toString()}"),
-                                          ),
-                                        ]),
                                       ),
                                     ),
                                   ),

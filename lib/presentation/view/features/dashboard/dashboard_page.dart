@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:grocerapp/application/bottom_nav_provider/bottom_nav_provider.dart';
 import 'package:grocerapp/presentation/view/features/app_bar/app_bar.dart';
 import 'package:grocerapp/presentation/view/features/bottom_nav_bar/bottom_nav_bar_widget.dart';
 import 'package:grocerapp/presentation/view/features/dashboard/recent_items_grid_widget.dart';
@@ -11,6 +12,7 @@ class DashboardPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final currentIndex = ref.watch(bottomNavProvider);
     int gridCount = 2;
     return Scaffold(
       appBar: const GrocerAppbar(
@@ -46,7 +48,7 @@ class DashboardPage extends ConsumerWidget {
           ],
         ),
       ),
-      bottomNavigationBar: const BottomNavBar(),
+      bottomNavigationBar: BottomNavBar(index: currentIndex),
     );
   }
 }

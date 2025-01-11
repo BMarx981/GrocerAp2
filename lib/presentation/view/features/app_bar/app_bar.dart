@@ -15,6 +15,7 @@ class GrocerAppbar extends StatelessWidget implements PreferredSize {
       shadowColor: Colors.black,
       elevation: 8,
       scrolledUnderElevation: null,
+      backgroundColor: Colors.lightBlue.withValues(alpha: 0.4),
     );
   }
 

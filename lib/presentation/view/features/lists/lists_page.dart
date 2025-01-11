@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:grocerapp/application/bottom_nav_provider/bottom_nav_provider.dart';
 import 'package:grocerapp/application/lists_providers/lists_providers.dart';
 import 'package:grocerapp/domain/repository/lists_repository.dart';
 import 'package:grocerapp/presentation/common_widgets/textformfield_widget.dart';
@@ -14,6 +15,7 @@ class ListsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final listsProviderData = ref.watch(listsProvider);
+    final bottomNavIndex = ref.read(bottomNavProvider);
 
     return Scaffold(
       appBar: const GrocerAppbar(
@@ -50,7 +52,7 @@ class ListsPage extends ConsumerWidget {
                     children: [
                       Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.fromLTRB(8.0, 8, 4, 8),
+                          padding: const EdgeInsets.fromLTRB(8, 8, 4, 8),
                           child: Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(16),
@@ -96,7 +98,9 @@ class ListsPage extends ConsumerWidget {
           )
         ],
       ),
-      bottomNavigationBar: const BottomNavBar(),
+      bottomNavigationBar: BottomNavBar(
+        index: bottomNavIndex,
+      ),
     );
   }
 }

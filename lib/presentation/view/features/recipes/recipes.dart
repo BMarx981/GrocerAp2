@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:grocerapp/application/bottom_nav_provider/bottom_nav_provider.dart';
 import 'package:grocerapp/presentation/view/features/app_bar/app_bar.dart';
 import 'package:grocerapp/presentation/view/features/bottom_nav_bar/bottom_nav_bar_widget.dart';
 import 'package:grocerapp/presentation/view/features/recipes/recipe_list_widget.dart';
@@ -9,6 +10,7 @@ class RecipesPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final currentIndex = ref.watch(bottomNavProvider);
     return Scaffold(
       appBar: const GrocerAppbar(
         title: "Recipes",
@@ -27,7 +29,7 @@ class RecipesPage extends ConsumerWidget {
           ],
         ),
       ),
-      bottomNavigationBar: const BottomNavBar(),
+      bottomNavigationBar: BottomNavBar(index: currentIndex),
     );
   }
 }

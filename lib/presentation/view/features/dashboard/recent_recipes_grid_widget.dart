@@ -52,46 +52,54 @@ class _RecentRecipesGridWidgetState
                               );
                             }),
                         Expanded(
-                          child: ListView.builder(
-                            itemCount: data.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  Beamer.of(context).beamToNamed(
-                                    '/recipes',
-                                    data: data[index],
-                                    popToNamed: '/dashboard',
-                                    transitionDelegate:
-                                        const DefaultTransitionDelegate(),
-                                  );
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.all(2.0),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Container(
-                                            decoration: BoxDecoration(
-                                              gradient: LinearGradient(colors: [
-                                                Colors.white
-                                                    .withValues(alpha: .8),
-                                                Colors.white
-                                                    .withValues(alpha: .6)
-                                              ]),
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(25),
-                                              border: Border.all(
-                                                  width: 2,
-                                                  color: Colors.white),
-                                            ),
-                                            child: Text(data[index].name)),
-                                      ),
-                                    ],
+                          child: Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: ListView.builder(
+                              itemCount: data.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    Beamer.of(context).beamToNamed(
+                                      '/recipes',
+                                      data: data[index],
+                                      popToNamed: '/dashboard',
+                                      transitionDelegate:
+                                          const DefaultTransitionDelegate(),
+                                    );
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                              decoration: BoxDecoration(
+                                                gradient:
+                                                    LinearGradient(colors: [
+                                                  Colors.white
+                                                      .withValues(alpha: .8),
+                                                  Colors.white
+                                                      .withValues(alpha: .6)
+                                                ]),
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(25),
+                                                border: Border.all(
+                                                    width: 2,
+                                                    color: Colors.white),
+                                              ),
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Text(data[index].name),
+                                              )),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              );
-                            },
+                                );
+                              },
+                            ),
                           ),
                         ),
                       ],
