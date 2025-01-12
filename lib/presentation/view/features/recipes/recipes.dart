@@ -24,7 +24,10 @@ class RecipesPage extends ConsumerWidget {
               decoration: const BoxDecoration(color: Colors.lightBlue),
               child: Column(
                 children: [
-                  TextfieldButton(controller: newRecipeController),
+                  TextfieldButton(
+                    controller: newRecipeController,
+                    buttonText: "Add new recipe.",
+                  ),
                   const Expanded(
                     child: Row(
                       children: [

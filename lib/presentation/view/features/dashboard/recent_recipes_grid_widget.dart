@@ -5,7 +5,7 @@ import 'package:grocerapp/application/bottom_nav_provider/bottom_nav_provider.da
 import 'package:grocerapp/domain/repository/recipe_repository.dart';
 import 'package:grocerapp/presentation/common_widgets/add_recipe_dialog.dart';
 import 'package:grocerapp/presentation/common_widgets/error_message_widget.dart';
-import 'package:grocerapp/presentation/view/features/dashboard/dashboard_title_widget.dart';
+import 'package:grocerapp/presentation/view/features/dashboard/components/dashboard_title_widget.dart';
 
 class RecentRecipesGridWidget extends ConsumerStatefulWidget {
   const RecentRecipesGridWidget({

@@ -12,23 +12,24 @@ class AddItemsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-        appBar: GrocerAppbar(title: "Add Items to ${listData.name}"),
-        body: Column(
-          children: [
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [Text("Add these grocery items to your list.")],
-              ),
+      appBar: GrocerAppbar(title: "Add Items to ${listData.name}"),
+      body: Column(
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [Text("Add these grocery items to your list.")],
             ),
-            Expanded(
-                child: ListOfItemsWidget(
-                    listId: listData.id, name: listData.name)),
-            Expanded(
-              child: ListOfSelectedItems(listId: listData.id),
-            )
-          ],
-        ));
+          ),
+          Expanded(
+              child:
+                  ListOfItemsWidget(listId: listData.id, name: listData.name)),
+          Expanded(
+            child: ListOfSelectedItems(listId: listData.id),
+          )
+        ],
+      ),
+    );
   }
 }

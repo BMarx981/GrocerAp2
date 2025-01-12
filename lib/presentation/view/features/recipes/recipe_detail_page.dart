@@ -17,7 +17,7 @@ class RecipeDetailPage extends ConsumerWidget {
         body: Column(
           children: [
             Expanded(
-                child: ListOfItemsWidget(
+                child: ListOfRecipesWidget(
                     listId: listData.id, name: listData.name)),
             Expanded(
               child: ListOfSelectedItems(listId: listData.id),
@@ -55,8 +55,8 @@ class ListOfSelectedItems extends ConsumerWidget {
   }
 }
 
-class ListOfItemsWidget extends ConsumerWidget {
-  const ListOfItemsWidget(
+class ListOfRecipesWidget extends ConsumerWidget {
+  const ListOfRecipesWidget(
       {super.key, required this.listId, required this.name});
   final String name;
   final int listId;

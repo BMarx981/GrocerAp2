@@ -5,8 +5,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grocerapp/presentation/common_widgets/textformfield_widget.dart';
 
 class TextfieldButton extends ConsumerWidget {
-  TextfieldButton({super.key, required this.controller});
+  TextfieldButton(
+      {super.key, required this.controller, required this.buttonText});
   TextEditingController controller;
+  String buttonText;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -24,7 +26,7 @@ class TextfieldButton extends ConsumerWidget {
                   child: ElevatedButton(
                       onPressed: () =>
                           ref.read(recipeProvider.notifier).toggleTextField(),
-                      child: const Text("Add new recipe.")),
+                      child: Text(buttonText)),
                 ),
               ),
             ],

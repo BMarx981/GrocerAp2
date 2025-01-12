@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:grocerapp/presentation/view/features/dashboard/dashboard_title_widget.dart';
+import 'package:grocerapp/presentation/view/features/dashboard/components/dashboard_title_widget.dart';
 
 void main() {
   testWidgets('Dashboard title test', (WidgetTester tester) async {

@@ -15,7 +15,7 @@ class ListsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final listsProviderData = ref.watch(listsProvider);
-    final bottomNavIndex = ref.read(bottomNavProvider);
+    final bottomNavIndex = ref.watch(bottomNavProvider);
 
     return Scaffold(
       appBar: const GrocerAppbar(

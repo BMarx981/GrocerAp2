@@ -4,7 +4,7 @@ import 'package:grocerapp/domain/repository/grocery_item_repository.dart';
 import 'package:grocerapp/presentation/common_widgets/add_item_dialog.dart';
 import 'package:grocerapp/presentation/common_widgets/edit_item_dialog.dart';
 import 'package:grocerapp/presentation/common_widgets/error_message_widget.dart';
-import 'package:grocerapp/presentation/view/features/dashboard/dashboard_title_widget.dart';
+import 'package:grocerapp/presentation/view/features/dashboard/components/dashboard_title_widget.dart';
 
 class RecentItemsGridWidget extends ConsumerWidget {
   const RecentItemsGridWidget({
