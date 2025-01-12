@@ -20,7 +20,12 @@ class ListOfRecipesWidget extends ConsumerWidget {
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Container(
-            decoration: BoxDecoration(color: Colors.grey.shade300),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade300,
+              borderRadius: const BorderRadius.all(
+                Radius.circular(8),
+              ),
+            ),
             child: ListView.builder(
               itemCount: data.length,
               itemBuilder: (context, index) {

@@ -7,7 +7,11 @@ import 'package:grocerapp/presentation/common_widgets/textformfield_widget.dart'
 class TextfieldButton extends ConsumerWidget {
   TextfieldButton(
       {super.key, required this.controller, required this.buttonText});
+
+  /// The controller that the textfield uses to take text input.
   TextEditingController controller;
+
+  /// The text for the button
   String buttonText;
 
   @override

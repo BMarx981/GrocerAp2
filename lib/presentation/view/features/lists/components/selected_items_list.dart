@@ -13,30 +13,36 @@ class ListOfSelectedItems extends ConsumerWidget {
         .fetchGroceryItemsForList(listId);
     final notifier = ref.read(listsRepositoryProvider.notifier);
     return StreamBuilder(
-        stream: provider,
-        builder: (context, snapshot) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(color: Colors.grey.shade300),
-              child: ListView.builder(
-                  itemCount: snapshot.data?.length ?? 0,
-                  itemBuilder: (context, index) {
-                    return Dismissible(
-                        onDismissed: (direction) =>
-                            notifier.deleteItemFromShoppingList(
-                                snapshot.requireData[index].id, listId),
-                        key: UniqueKey(),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(snapshot.requireData[index].name!),
-                          ],
-                        ));
-                  }),
+      stream: provider,
+      builder: (context, snapshot) {
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade300,
+              borderRadius: const BorderRadius.all(Radius.circular(8)),
             ),
-          );
-        });
+            child: ListView.builder(
+              itemCount: snapshot.data?.length ?? 0,
+              itemBuilder: (context, index) {
+                return Dismissible(
+                  onDismissed: (direction) =>
+                      notifier.deleteItemFromShoppingList(
+                          snapshot.requireData[index].id, listId),
+                  key: UniqueKey(),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(snapshot.requireData[index].name!),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+        );
+      },
+    );
   }
 }

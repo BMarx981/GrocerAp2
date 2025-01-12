@@ -25,11 +25,13 @@ class RecipeListWidget extends ConsumerWidget {
             itemBuilder: (context, index) {
               return Row(
                 children: [
-                  Expanded(child: RecipeDetailsWidget(name: data[index].name)),
+                  Expanded(
+                    child: RecipeDetailsWidget(name: data[index].name),
+                  ),
                   IconButton(
                     icon: const Icon(Icons.add),
-                    onPressed: () =>
-                        Beamer.of(context).beamToNamed('/recipe_details_page'),
+                    onPressed: () => Beamer.of(context)
+                        .beamToNamed('/recipe_details_page', data: data[index]),
                   )
                 ],
               );

@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class RecipeDetailsWidget extends ConsumerWidget {
   const RecipeDetailsWidget({super.key, required this.name});
+
+  /// The name of the Recipe
   final String name;
 
   @override

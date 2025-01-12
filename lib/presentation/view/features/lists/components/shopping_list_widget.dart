@@ -13,6 +13,8 @@ class ShoppinglistWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final listsRepoProvider = ref.watch(listsRepositoryProvider);
     return listsRepoProvider.when(
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (e, stackTrace) => ErrorMessageWidget(e.toString()),
       data: (data) {
         return Expanded(
             child: Padding(
@@ -28,8 +30,6 @@ class ShoppinglistWidget extends ConsumerWidget {
           ),
         ));
       },
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (e, stackTrace) => ErrorMessageWidget(e.toString()),
     );
   }
 }
