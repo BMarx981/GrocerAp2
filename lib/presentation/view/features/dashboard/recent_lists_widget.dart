@@ -49,54 +49,54 @@ class RecentListsGridWidget extends ConsumerWidget {
                             itemCount: data.length,
                             itemBuilder: (context, index) {
                               return Dismissible(
-                                  key: UniqueKey(),
-                                  onDismissed: (direction) {
-                                    ref
-                                        .read(listsRepositoryProvider.notifier)
-                                        .deleteList(data[index].id);
+                                key: UniqueKey(),
+                                onDismissed: (direction) {
+                                  ref
+                                      .read(listsRepositoryProvider.notifier)
+                                      .deleteList(data[index].id);
+                                },
+                                child: GestureDetector(
+                                  onTap: () {
+                                    Beamer.of(context).beamToNamed(
+                                      '/lists',
+                                      data: data[index],
+                                      popToNamed: '/dashboard',
+                                      transitionDelegate:
+                                          const DefaultTransitionDelegate(),
+                                    );
                                   },
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Beamer.of(context).beamToNamed(
-                                        '/lists',
-                                        data: data[index],
-                                        popToNamed: '/dashboard',
-                                        transitionDelegate:
-                                            const DefaultTransitionDelegate(),
-                                      );
-                                    },
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(2.0),
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                gradient:
-                                                    LinearGradient(colors: [
-                                                  Colors.white
-                                                      .withValues(alpha: .8),
-                                                  Colors.white
-                                                      .withValues(alpha: .6)
-                                                ]),
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(25),
-                                                border: Border.all(
-                                                    width: 2,
-                                                    color: Colors.white),
-                                              ),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Text(data[index].name),
-                                              ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(2.0),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              gradient: LinearGradient(colors: [
+                                                Colors.white
+                                                    .withValues(alpha: .8),
+                                                Colors.white
+                                                    .withValues(alpha: .6)
+                                              ]),
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(25),
+                                              border: Border.all(
+                                                  width: 2,
+                                                  color: Colors.white),
+                                            ),
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(data[index].name),
                                             ),
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
-                                  ));
+                                  ),
+                                ),
+                              );
                             },
                           ),
                         ),

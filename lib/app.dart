@@ -20,8 +20,6 @@ class App extends StatelessWidget {
       '/recipes': (context, state, data) => RecipesPage(),
       '/add_items_to_list': (context, state, data) =>
           AddItemsPage(listData: data as ShoppingListData),
-      '/recipe_items_list': (context, state, data) =>
-          RecipeDetailPage(listData: data as RecipeData),
       '/recipe_details_page': (context, state, data) =>
           RecipeDetailPage(listData: data as RecipeData),
     }).call,

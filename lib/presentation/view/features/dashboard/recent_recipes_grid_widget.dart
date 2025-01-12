@@ -58,47 +58,55 @@ class _RecentRecipesGridWidgetState
                             child: ListView.builder(
                               itemCount: data.length,
                               itemBuilder: (BuildContext context, int index) {
-                                return GestureDetector(
-                                  onTap: () {
+                                return Dismissible(
+                                  key: UniqueKey(),
+                                  onDismissed: (direction) {
                                     ref
-                                        .read(bottomNavProvider.notifier)
-                                        .bottomNavSelected(2);
-                                    Beamer.of(context).beamToNamed(
-                                      '/recipes',
-                                      data: data[index],
-                                      popToNamed: '/dashboard',
-                                      transitionDelegate:
-                                          const DefaultTransitionDelegate(),
-                                    );
+                                        .read(recipeRepositoryProvider.notifier)
+                                        .deleteRecipe(data[index].id);
                                   },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(2.0),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: Container(
-                                              decoration: BoxDecoration(
-                                                gradient:
-                                                    LinearGradient(colors: [
-                                                  Colors.white
-                                                      .withValues(alpha: .8),
-                                                  Colors.white
-                                                      .withValues(alpha: .6)
-                                                ]),
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(25),
-                                                border: Border.all(
-                                                    width: 2,
-                                                    color: Colors.white),
-                                              ),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Text(data[index].name),
-                                              )),
-                                        ),
-                                      ],
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      ref
+                                          .read(bottomNavProvider.notifier)
+                                          .bottomNavSelected(2);
+                                      Beamer.of(context).beamToNamed(
+                                        '/recipes',
+                                        data: data[index],
+                                        popToNamed: '/dashboard',
+                                        transitionDelegate:
+                                            const DefaultTransitionDelegate(),
+                                      );
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(2.0),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Container(
+                                                decoration: BoxDecoration(
+                                                  gradient:
+                                                      LinearGradient(colors: [
+                                                    Colors.white
+                                                        .withValues(alpha: .8),
+                                                    Colors.white
+                                                        .withValues(alpha: .6)
+                                                  ]),
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(25),
+                                                  border: Border.all(
+                                                      width: 2,
+                                                      color: Colors.white),
+                                                ),
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Text(data[index].name),
+                                                )),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 );

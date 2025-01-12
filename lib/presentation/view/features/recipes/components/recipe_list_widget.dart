@@ -29,7 +29,7 @@ class RecipeListWidget extends ConsumerWidget {
                   IconButton(
                     icon: const Icon(Icons.add),
                     onPressed: () =>
-                        Beamer.of(context).beamToNamed('/recipe_detail_page'),
+                        Beamer.of(context).beamToNamed('/recipe_details_page'),
                   )
                 ],
               );
