@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grocerapp/domain/repository/recipe_repository.dart';
 import 'package:grocerapp/presentation/common_widgets/error_message_widget.dart';
-import 'package:grocerapp/presentation/view/features/recipes/recipe_details_widget.dart';
+import 'package:grocerapp/presentation/view/features/recipes/components/recipe_details_widget.dart';
 
 class RecipeListWidget extends ConsumerWidget {
   const RecipeListWidget({

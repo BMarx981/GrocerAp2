@@ -6,7 +6,7 @@ import 'package:grocerapp/domain/repository/lists_repository.dart';
 import 'package:grocerapp/presentation/common_widgets/textformfield_widget.dart';
 import 'package:grocerapp/presentation/view/features/app_bar/app_bar.dart';
 import 'package:grocerapp/presentation/view/features/bottom_nav_bar/bottom_nav_bar_widget.dart';
-import 'package:grocerapp/presentation/view/features/lists/shopping_list_widget.dart';
+import 'package:grocerapp/presentation/view/features/lists/components/shopping_list_widget.dart';
 
 class ListsPage extends ConsumerWidget {
   ListsPage({super.key});
