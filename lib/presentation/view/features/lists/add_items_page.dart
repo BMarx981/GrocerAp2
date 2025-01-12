@@ -16,6 +16,13 @@ class AddItemsPage extends ConsumerWidget {
         appBar: GrocerAppbar(title: "Add Items to ${listData.name}"),
         body: Column(
           children: [
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [Text("Add these grocery items to your list.")],
+              ),
+            ),
             Expanded(
                 child: ListOfItemsWidget(
                     listId: listData.id, name: listData.name)),
@@ -36,6 +43,7 @@ class ListOfSelectedItems extends ConsumerWidget {
     final provider = ref
         .watch(listsRepositoryProvider.notifier)
         .fetchGroceryItemsForList(listId);
+    final notifier = ref.read(listsRepositoryProvider.notifier);
     return StreamBuilder(
         stream: provider,
         builder: (context, snapshot) {
@@ -47,7 +55,17 @@ class ListOfSelectedItems extends ConsumerWidget {
               child: ListView.builder(
                   itemCount: snapshot.data?.length ?? 0,
                   itemBuilder: (context, index) {
-                    return Text(snapshot.requireData[index].name!);
+                    return Dismissible(
+                        onDismissed: (direction) =>
+                            notifier.deleteItemFromShoppingList(
+                                snapshot.requireData[index].id, listId),
+                        key: UniqueKey(),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(snapshot.requireData[index].name!),
+                          ],
+                        ));
                   }),
             ),
           );

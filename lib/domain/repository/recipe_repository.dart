@@ -72,4 +72,11 @@ class RecipeRepository extends _$RecipeRepository {
   void deleteRecipe(int id) {
     (db.delete(db.recipes)..where((t) => t.id.equals(id))).go();
   }
+
+  void deleteRecipeItem(int itemId, int recipeId) async {
+    // Delete associated recipe items first
+    await (db.delete(db.recipeItems)
+          ..where((item) => item.recipeId.equals(recipeId)))
+        .go();
+  }
 }

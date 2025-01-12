@@ -73,4 +73,8 @@ class ListsRepository extends _$ListsRepository {
   void deleteList(int id) {
     (db.delete(db.shoppingLists)..where((t) => t.id.equals(id))).go();
   }
+
+  void deleteItemFromShoppingList(int itemId, int listId) {
+    (db.delete(db.shoppingListItems)..where((t) => t.id.equals(itemId))).go();
+  }
 }
