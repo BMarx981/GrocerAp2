@@ -83,7 +83,7 @@ class LoginSection extends ConsumerWidget {
                       onPressed: () {
                         if (formkey.currentState!.validate()) {
                           provider
-                              ? Beamer.of(context).beamToNamed('/dashboard',
+                              ? Beamer.of(context).beamToNamed('/main_page',
                                   beamBackOnPop: false)
                               : null;
                         } else {}

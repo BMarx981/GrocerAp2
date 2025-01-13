@@ -10,10 +10,7 @@ class LoginPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return SafeArea(
       child: Scaffold(
-          appBar: const GrocerAppbar(title: "Welcome to the GrocerApp."),
-          // appBar: AppBar(
-          //   title: const Text("Welcome to the GrocerApp."),
-          // ),
+          appBar: const GrocerAppbar(title: "Welcome to the GrocerApp.", showLogOut: false),
           body: Container(
             decoration: BoxDecoration(
               color: Colors.red.shade100,

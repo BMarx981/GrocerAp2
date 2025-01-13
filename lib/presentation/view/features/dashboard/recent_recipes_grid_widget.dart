@@ -1,4 +1,3 @@
-import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grocerapp/application/bottom_nav_provider/bottom_nav_provider.dart';
@@ -70,13 +69,6 @@ class _RecentRecipesGridWidgetState
                                       ref
                                           .read(bottomNavProvider.notifier)
                                           .bottomNavSelected(2);
-                                      Beamer.of(context).beamToNamed(
-                                        '/recipes',
-                                        data: data[index],
-                                        popToNamed: '/dashboard',
-                                        transitionDelegate:
-                                            const DefaultTransitionDelegate(),
-                                      );
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.all(2.0),

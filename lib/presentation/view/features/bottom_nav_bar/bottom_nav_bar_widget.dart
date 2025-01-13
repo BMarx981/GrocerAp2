@@ -1,19 +1,19 @@
-import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grocerapp/application/bottom_nav_provider/bottom_nav_provider.dart';
 
 class BottomNavBar extends ConsumerWidget {
-  const BottomNavBar({super.key, required this.index});
-  final int index;
+  const BottomNavBar({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final provider = ref.watch(bottomNavProvider);
     final notifier = ref.watch(bottomNavProvider.notifier);
+    print(provider);
     return BottomNavigationBar(
         backgroundColor: Colors.blueGrey.withValues(alpha: 0.2),
         selectedItemColor: Colors.amberAccent,
-        currentIndex: index,
+        currentIndex: provider,
         items: [
           BottomNavigationBarItem(
             icon: Semantics(
@@ -26,7 +26,6 @@ class BottomNavBar extends ConsumerWidget {
                 icon: const Icon(Icons.home),
                 onPressed: () {
                   notifier.bottomNavSelected(0);
-                  Beamer.of(context).beamToReplacementNamed('/dashboard');
                 },
               ),
             ),
@@ -41,8 +40,6 @@ class BottomNavBar extends ConsumerWidget {
                 icon: const Icon(Icons.list),
                 onPressed: () {
                   notifier.bottomNavSelected(1);
-                  Beamer.of(context).beamToReplacementNamed('/lists',
-                      popToNamed: '/dashboard');
                 },
               ),
             ),
@@ -57,8 +54,6 @@ class BottomNavBar extends ConsumerWidget {
                 icon: const Icon(Icons.book),
                 onPressed: () {
                   notifier.bottomNavSelected(2);
-                  Beamer.of(context).beamToReplacementNamed('/recipes',
-                      popToNamed: '/dashboard');
                 },
               ),
             ),

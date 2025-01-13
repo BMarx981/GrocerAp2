@@ -1,6 +1,6 @@
-import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:grocerapp/application/bottom_nav_provider/bottom_nav_provider.dart';
 import 'package:grocerapp/domain/repository/lists_repository.dart';
 import 'package:grocerapp/presentation/common_widgets/add_list_dialog.dart';
 import 'package:grocerapp/presentation/common_widgets/error_message_widget.dart';
@@ -57,13 +57,9 @@ class RecentListsGridWidget extends ConsumerWidget {
                                 },
                                 child: GestureDetector(
                                   onTap: () {
-                                    Beamer.of(context).beamToNamed(
-                                      '/lists',
-                                      data: data[index],
-                                      popToNamed: '/dashboard',
-                                      transitionDelegate:
-                                          const DefaultTransitionDelegate(),
-                                    );
+                                    ref
+                                        .read(bottomNavProvider.notifier)
+                                        .bottomNavSelected(1);
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.all(2.0),
