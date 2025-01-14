@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:grocerapp/domain/repository/lists_item_repository.dart';
 import 'package:grocerapp/domain/repository/lists_repository.dart';
 
 class ListOfSelectedItems extends ConsumerWidget {
@@ -9,7 +10,7 @@ class ListOfSelectedItems extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = ref
-        .watch(listsRepositoryProvider.notifier)
+        .watch(listsItemRepositoryProvider.notifier)
         .fetchGroceryItemsForList(listId);
     final notifier = ref.read(listsRepositoryProvider.notifier);
     return StreamBuilder(

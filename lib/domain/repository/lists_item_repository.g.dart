@@ -1,26 +1,28 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'recipe_repository.dart';
+part of 'lists_item_repository.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$recipeRepositoryHash() => r'330283c7e9c6571ab28b40b0c684148b7071f55c';
+String _$listsItemRepositoryHash() =>
+    r'b3f80e8155376aaa0606f53d7cffdfca2f8a1a0b';
 
-/// See also [RecipeRepository].
-@ProviderFor(RecipeRepository)
-final recipeRepositoryProvider = AutoDisposeStreamNotifierProvider<
-    RecipeRepository, List<RecipeData>>.internal(
-  RecipeRepository.new,
-  name: r'recipeRepositoryProvider',
+/// See also [ListsItemRepository].
+@ProviderFor(ListsItemRepository)
+final listsItemRepositoryProvider = AutoDisposeStreamNotifierProvider<
+    ListsItemRepository, List<ShoppingListItemsData>>.internal(
+  ListsItemRepository.new,
+  name: r'listsItemRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$recipeRepositoryHash,
+      : _$listsItemRepositoryHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$RecipeRepository = AutoDisposeStreamNotifier<List<RecipeData>>;
+typedef _$ListsItemRepository
+    = AutoDisposeStreamNotifier<List<ShoppingListItemsData>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

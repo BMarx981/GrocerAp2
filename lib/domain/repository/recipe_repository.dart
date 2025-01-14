@@ -13,52 +13,10 @@ class RecipeRepository extends _$RecipeRepository {
     return db.select(db.recipes).watch();
   }
 
-  Stream<List<GroceryItemData>> fetchGroceryItemsForRecipe(int recipeId) {
-    final query = db.select(db.groceryItems).join([
-      innerJoin(db.recipeItems,
-          db.recipeItems.groceryItemId.equalsExp(db.groceryItems.id))
-    ])
-      ..where(db.recipeItems.recipeId.equals(recipeId));
-
-    return query.watch().map((rows) {
-      return rows
-          .map((row) {
-            final r = row.readTable(db.groceryItems);
-            return GroceryItemData(
-              id: r.id,
-              name: r.name,
-              price: r.price,
-              quantity: r.quantity,
-              storeName: r.storeName,
-            );
-          })
-          .toSet()
-          .toList();
-    });
-  }
-
-  Future<int> addItemToRecipeList(int groceryItemId, int recipeId) async {
-    return await db.into(db.recipeItems).insert(
-          RecipeItemsCompanion(
-            groceryItemId: Value(groceryItemId),
-            recipeId: Value(recipeId),
-          ),
-        );
-  }
-
   Future<int> addRecipe(String name) {
     return db.into(db.recipes).insert(
           RecipesCompanion(
             name: Value(name),
-          ),
-        );
-  }
-
-  Future<int> addItemToRecipe(int groceryItemId, int recipeId) {
-    return db.into(db.recipeItems).insert(
-          RecipeItemsCompanion(
-            groceryItemId: Value(groceryItemId),
-            recipeId: Value(recipeId),
           ),
         );
   }
@@ -71,12 +29,5 @@ class RecipeRepository extends _$RecipeRepository {
 
   void deleteRecipe(int id) {
     (db.delete(db.recipes)..where((t) => t.id.equals(id))).go();
-  }
-
-  void deleteRecipeItem(int itemId, int recipeId) async {
-    // Delete associated recipe items first
-    await (db.delete(db.recipeItems)
-          ..where((item) => item.recipeId.equals(recipeId)))
-        .go();
   }
 }

@@ -13,28 +13,6 @@ class ListsRepository extends _$ListsRepository {
     return db.select(db.shoppingLists).watch();
   }
 
-  Stream<List<GroceryItemData>> fetchGroceryItemsForList(int listId) {
-    final query = db.select(db.groceryItems).join([
-      innerJoin(db.shoppingListItems,
-          db.shoppingListItems.groceryItemId.equalsExp(db.groceryItems.id))
-    ])
-      ..where(db.shoppingListItems.shoppingListId.equals(listId));
-
-    return query.watch().map((rows) {
-      return rows
-          .map((row) {
-            final r = row.readTable(db.groceryItems);
-            return GroceryItemData(
-                id: r.id,
-                name: r.name,
-                price: r.price,
-                quantity: r.quantity,
-                storeName: r.storeName);
-          })
-          .toSet()
-          .toList();
-    });
-  }
 
   Future<List<GroceryItemData>> getItemsInShoppingList(int shoppingListId) {
     final query = db.select(db.groceryItems).join([
