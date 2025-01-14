@@ -12,15 +12,19 @@ class GrocerAppbar extends StatelessWidget implements PreferredSize {
 
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      key: key,
-      title: Text(title),
-      shadowColor: Colors.black,
-      elevation: 8,
-      automaticallyImplyLeading: false,
-      scrolledUnderElevation: null,
-      actions: [showLogOut ? const LogoutActionButton() : Container()],
-      backgroundColor: Colors.lightBlue.withValues(alpha: 0.4),
+    return Semantics(
+      label: "Log out button",
+      hint: "Tap this button to log out of the app",
+      child: AppBar(
+        key: key,
+        title: Text(title),
+        shadowColor: Colors.black,
+        elevation: 8,
+        automaticallyImplyLeading: false,
+        scrolledUnderElevation: null,
+        actions: [showLogOut ? const LogoutActionButton() : Container()],
+        backgroundColor: Colors.lightBlue.withValues(alpha: 0.4),
+      ),
     );
   }
 

@@ -9,7 +9,6 @@ class BottomNavBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final provider = ref.watch(bottomNavProvider);
     final notifier = ref.watch(bottomNavProvider.notifier);
-    print(provider);
     return BottomNavigationBar(
         backgroundColor: Colors.blueGrey.withValues(alpha: 0.2),
         selectedItemColor: Colors.amberAccent,
