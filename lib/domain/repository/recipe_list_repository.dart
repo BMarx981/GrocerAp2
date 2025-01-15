@@ -13,13 +13,6 @@ class RecipeListRepository extends _$RecipeListRepository {
     return db.select(db.recipeItems).watch();
   }
 
-  void deleteRecipeItem(int itemId, int recipeId) async {
-    // Delete associated recipe items first
-    await (db.delete(db.recipeItems)
-          ..where((item) => item.recipeId.equals(recipeId)))
-        .go();
-  }
-
   Future<int> addItemToRecipeList(int groceryItemId, int recipeId) async {
     return await db.into(db.recipeItems).insert(
           RecipeItemsCompanion(
@@ -51,5 +44,11 @@ class RecipeListRepository extends _$RecipeListRepository {
           .toSet()
           .toList();
     });
+  }
+
+  void deleteRecipeItem(int itemId) async {
+    await (db.delete(db.recipeItems)
+          ..where((item) => item.groceryItemId.equals(itemId)))
+        .go();
   }
 }

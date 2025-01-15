@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grocerapp/domain/repository/grocery_item_repository.dart';
-import 'package:grocerapp/domain/repository/lists_repository.dart';
+import 'package:grocerapp/domain/repository/lists_item_repository.dart';
 import 'package:grocerapp/presentation/common_widgets/error_message_widget.dart';
 
 class ListOfItemsWidget extends ConsumerWidget {
@@ -30,7 +30,7 @@ class ListOfItemsWidget extends ConsumerWidget {
                           child: Text(data[index].name!),
                           onPressed: () {
                             ref
-                                .read(listsRepositoryProvider.notifier)
+                                .read(listsItemRepositoryProvider.notifier)
                                 .addItemToShoppingList(data[index].id, listId);
                           }),
                     );

@@ -13,7 +13,6 @@ class ListsItemRepository extends _$ListsItemRepository {
     return db.select(db.shoppingListItems).watch();
   }
 
-
   Stream<List<GroceryItemData>> fetchGroceryItemsForList(int listId) {
     final query = db.select(db.groceryItems).join([
       innerJoin(db.shoppingListItems,
@@ -35,5 +34,20 @@ class ListsItemRepository extends _$ListsItemRepository {
           .toSet()
           .toList();
     });
+  }
+
+  Future<int> addItemToShoppingList(int groceryItemId, int shoppingListId) {
+    return db.into(db.shoppingListItems).insert(
+          ShoppingListItemsCompanion(
+            groceryItemId: Value(groceryItemId),
+            shoppingListId: Value(shoppingListId),
+          ),
+        );
+  }
+
+  Future<int> deleteShoppingListItem(int id) {
+    return (db.delete(db.shoppingListItems)
+          ..where((tbl) => tbl.groceryItemId.equals(id)))
+        .go();
   }
 }

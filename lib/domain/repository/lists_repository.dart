@@ -13,7 +13,6 @@ class ListsRepository extends _$ListsRepository {
     return db.select(db.shoppingLists).watch();
   }
 
-
   Future<List<GroceryItemData>> getItemsInShoppingList(int shoppingListId) {
     final query = db.select(db.groceryItems).join([
       innerJoin(db.shoppingListItems,
@@ -22,15 +21,6 @@ class ListsRepository extends _$ListsRepository {
       ..where(db.shoppingListItems.shoppingListId.equals(shoppingListId));
 
     return query.map((row) => row.readTable(db.groceryItems)).get();
-  }
-
-  Future<int> addItemToShoppingList(int groceryItemId, int shoppingListId) {
-    return db.into(db.shoppingListItems).insert(
-          ShoppingListItemsCompanion(
-            groceryItemId: Value(groceryItemId),
-            shoppingListId: Value(shoppingListId),
-          ),
-        );
   }
 
   Future<int> addList(String name) async {
@@ -50,9 +40,5 @@ class ListsRepository extends _$ListsRepository {
 
   void deleteList(int id) {
     (db.delete(db.shoppingLists)..where((t) => t.id.equals(id))).go();
-  }
-
-  void deleteItemFromShoppingList(int itemId, int listId) {
-    (db.delete(db.shoppingListItems)..where((t) => t.id.equals(itemId))).go();
   }
 }

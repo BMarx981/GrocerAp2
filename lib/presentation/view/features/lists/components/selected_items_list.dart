@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grocerapp/domain/repository/lists_item_repository.dart';
-import 'package:grocerapp/domain/repository/lists_repository.dart';
 
 class ListOfSelectedItems extends ConsumerWidget {
   const ListOfSelectedItems({super.key, required this.listId});
@@ -12,7 +11,7 @@ class ListOfSelectedItems extends ConsumerWidget {
     final provider = ref
         .watch(listsItemRepositoryProvider.notifier)
         .fetchGroceryItemsForList(listId);
-    final notifier = ref.read(listsRepositoryProvider.notifier);
+    final notifier = ref.read(listsItemRepositoryProvider.notifier);
     return StreamBuilder(
       stream: provider,
       builder: (context, snapshot) {
@@ -28,9 +27,8 @@ class ListOfSelectedItems extends ConsumerWidget {
               itemCount: snapshot.data?.length ?? 0,
               itemBuilder: (context, index) {
                 return Dismissible(
-                  onDismissed: (direction) =>
-                      notifier.deleteItemFromShoppingList(
-                          snapshot.requireData[index].id, listId),
+                  onDismissed: (direction) => notifier
+                      .deleteShoppingListItem(snapshot.requireData[index].id),
                   key: UniqueKey(),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
