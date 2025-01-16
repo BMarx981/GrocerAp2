@@ -13,14 +13,8 @@ class ListsRepository extends _$ListsRepository {
     return db.select(db.shoppingLists).watch();
   }
 
-  Future<List<GroceryItemData>> getItemsInShoppingList(int shoppingListId) {
-    final query = db.select(db.groceryItems).join([
-      innerJoin(db.shoppingListItems,
-          db.shoppingListItems.groceryItemId.equalsExp(db.groceryItems.id))
-    ])
-      ..where(db.shoppingListItems.shoppingListId.equals(shoppingListId));
-
-    return query.map((row) => row.readTable(db.groceryItems)).get();
+  Future<List<ShoppingListData>> getShoppingLists() {
+    return db.select(db.shoppingLists).get();
   }
 
   Future<int> addList(String name) async {

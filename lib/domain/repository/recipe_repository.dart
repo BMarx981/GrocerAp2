@@ -21,6 +21,10 @@ class RecipeRepository extends _$RecipeRepository {
         );
   }
 
+  Future<List<RecipeData>> getRecipes() {
+    return db.select(db.recipes).get();
+  }
+
   Future updateRecipe(int id, String name) {
     final update = (db.update(db.recipes)..where((t) => t.id.equals(id)))
         .write(RecipesCompanion(name: Value(name)));

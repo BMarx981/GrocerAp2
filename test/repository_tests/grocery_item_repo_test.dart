@@ -12,7 +12,7 @@ AppDatabase createInMemoryDatabase() {
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  group('GroceryItemRepository Tests (In-Memory DB)', () {
+  group('GroceryItemRepository Tests', () {
     late ProviderContainer container;
     late AppDatabase db;
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
@@ -39,7 +39,7 @@ void main() {
       container.dispose();
     });
 
-    test('build() provides a stream of GroceryItemData', () async {
+    test('build() provides a list of GroceryItemData', () async {
       final notifier = container.read(groceryItemRepositoryProvider.notifier);
 
       await notifier.addItem(
@@ -54,10 +54,10 @@ void main() {
           await notifier.fetchGroceryItems();
 
       expect(groceryList.isNotEmpty, true);
-      final lastEvent = groceryList.last;
+      final item = groceryList.last;
 
-      expect(lastEvent.name, 'Apples');
-      expect(lastEvent.quantity, 5);
+      expect(item.name, 'Apples');
+      expect(item.quantity, 5);
     });
 
     test('fetchGroceryItems() returns inserted items', () async {
@@ -121,7 +121,7 @@ void main() {
         price: 1.99,
       );
 
-      var items = await notifier.fetchGroceryItems();
+      List<GroceryItemData> items = await notifier.fetchGroceryItems();
       expect(items.length, 1);
 
       notifier.deleteItem(id);
