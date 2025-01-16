@@ -54,7 +54,7 @@ class RecipeItems extends Table {
   ShoppingListItems
 ])
 class AppDatabase extends _$AppDatabase {
-  AppDatabase() : super(_openConnection());
+  AppDatabase([memory]) : super(_openConnection());
 
   @override
   int get schemaVersion => 3;

@@ -4,7 +4,6 @@ import 'package:grocerapp/presentation/view/features/dashboard/components/dashbo
 
 void main() {
   testWidgets('Dashboard title test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
     await tester.pumpWidget(const TestDashboardTitleWidget());
 
     // Verify that our counter starts at 0.
