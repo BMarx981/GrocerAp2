@@ -19,7 +19,6 @@ class ListsItemRepository extends _$ListsItemRepository {
           db.shoppingListItems.groceryItemId.equalsExp(db.groceryItems.id))
     ])
       ..where(db.shoppingListItems.shoppingListId.equals(listId));
-
     return query.watch().map((rows) {
       return rows
           .map((row) {
@@ -36,7 +35,33 @@ class ListsItemRepository extends _$ListsItemRepository {
     });
   }
 
-  Future<int> addItemToShoppingList(int groceryItemId, int shoppingListId) {
+  Future<List<GroceryItemData>> getItemsFromList(int listId) async {
+    final query = db.select(db.groceryItems).join([
+      innerJoin(
+        db.shoppingListItems,
+        db.shoppingListItems.groceryItemId.equalsExp(db.groceryItems.id),
+      ),
+    ])
+      ..where(db.shoppingListItems.shoppingListId.equals(listId));
+
+    final rows = await query.get();
+
+    final items = rows.map((row) {
+      final groceryItem = row.readTable(db.groceryItems);
+      return GroceryItemData(
+        id: groceryItem.id,
+        name: groceryItem.name,
+        price: groceryItem.price,
+        quantity: groceryItem.quantity,
+        storeName: groceryItem.storeName,
+      );
+    }).toList();
+
+    return items.toSet().toList();
+  }
+
+  Future<int> addItemToShoppingList(
+      int groceryItemId, int shoppingListId) async {
     return db.into(db.shoppingListItems).insert(
           ShoppingListItemsCompanion(
             groceryItemId: Value(groceryItemId),
