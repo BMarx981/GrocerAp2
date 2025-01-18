@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:grocerapp/data/source/database/database.dart';
-import 'package:grocerapp/domain/repository/lists_item_repository.dart';
+import 'package:grocerapp/domain/repository/recipe_list_repository.dart';
 
 AppDatabase createInMemoryDatabase() {
   return AppDatabase(NativeDatabase.memory());
@@ -34,8 +34,8 @@ void main() {
 
     tearDown(() async {
       await db.delete(db.groceryItems).go();
-      await db.delete(db.shoppingListItems).go();
-      await db.delete(db.shoppingLists).go();
+      await db.delete(db.recipeItems).go();
+      await db.delete(db.recipes).go();
       await db.close();
       container.dispose();
     });
@@ -52,24 +52,22 @@ void main() {
             id: 2, name: 'Item 2', price: 2, quantity: 2, storeName: 'Store 2'),
       );
 
-      final list1 = await db.shoppingLists.insertReturning(
-        ShoppingListsCompanion.insert(
-          name: 'Test List',
+      final list1 = await db.recipeItems.insertReturning(
+        RecipeItemsCompanion.insert(
+          groceryItemId: item1.id,
+          recipeId: 1,
         ),
       );
       final list1Id = list1.id;
 
-      await db.shoppingListItems.insertReturning(
-        ShoppingListItemsData(
-            id: 1, groceryItemId: item1.id, shoppingListId: list1Id),
+      await db.recipeItems.insertReturning(
+        RecipeItemsCompanion.insert(
+          groceryItemId: item2.id,
+          recipeId: 2,
+        ),
       );
 
-      await db.shoppingListItems.insertReturning(
-        ShoppingListItemsData(
-            id: 2, groceryItemId: item2.id, shoppingListId: list1Id),
-      );
-
-      final notifier = container.read(listsItemRepositoryProvider.notifier);
+      final notifier = container.read(recipeListRepositoryProvider.notifier);
 
       final items = await notifier.getItemsFromList(list1Id);
 
@@ -95,24 +93,22 @@ void main() {
             id: 2, name: 'Item 2', price: 2, quantity: 2, storeName: 'Store 2'),
       );
 
-      final list1 = await db.shoppingLists.insertReturning(
-        ShoppingListsCompanion.insert(
-          name: 'Test List',
+      final list1 = await db.recipeItems.insertReturning(
+        RecipeItemsCompanion.insert(
+          groceryItemId: item1.id,
+          recipeId: 1,
         ),
       );
       final list1Id = list1.id;
 
-      await db.shoppingListItems.insertReturning(
-        ShoppingListItemsData(
-            id: 1, groceryItemId: item1.id, shoppingListId: list1Id),
+      await db.recipeItems.insertReturning(
+        RecipeItemsCompanion.insert(
+          groceryItemId: item1.id,
+          recipeId: 1,
+        ),
       );
 
-      await db.shoppingListItems.insertReturning(
-        ShoppingListItemsData(
-            id: 2, groceryItemId: item2.id, shoppingListId: list1Id),
-      );
-
-      final notifier = container.read(listsItemRepositoryProvider.notifier);
+      final notifier = container.read(recipeListRepositoryProvider.notifier);
 
       final items = await notifier.getItemsFromList(list1Id);
 
@@ -147,25 +143,30 @@ void main() {
               storeName: 'Store 2'),
         );
 
-        final list1 = await db.shoppingLists.insertReturning(
-          ShoppingListsCompanion.insert(
-            name: 'Test List',
+        final list1 = await db.recipeItems.insertReturning(
+          RecipeItemsCompanion.insert(
+            groceryItemId: item1.id,
+            recipeId: 1,
           ),
         );
         final list1Id = list1.id;
 
-        await db.shoppingListItems.insertReturning(
-          ShoppingListItemsData(
-              id: 1, groceryItemId: item1.id, shoppingListId: list1Id),
+        await db.recipeItems.insertReturning(
+          RecipeItemsCompanion.insert(
+            groceryItemId: item2.id,
+            recipeId: 2,
+          ),
         );
 
-        await db.shoppingListItems.insertReturning(
-          ShoppingListItemsData(
-              id: 2, groceryItemId: item2.id, shoppingListId: list1Id),
+        await db.recipeItems.insertReturning(
+          RecipeItemsCompanion.insert(
+            groceryItemId: 2,
+            recipeId: 2,
+          ),
         );
 
-        final notifier = container.read(listsItemRepositoryProvider.notifier);
-        await notifier.addItemToShoppingList(1, 1);
+        final notifier = container.read(recipeListRepositoryProvider.notifier);
+        await notifier.addItemToRecipeList(1, 1);
 
         final itemsInList = db.select(db.shoppingListItems)
           ..where((tbl) => tbl.shoppingListId.equals(list1Id));

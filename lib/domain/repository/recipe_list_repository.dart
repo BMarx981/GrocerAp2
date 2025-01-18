@@ -46,6 +46,31 @@ class RecipeListRepository extends _$RecipeListRepository {
     });
   }
 
+  Future<List<GroceryItemData>> getItemsFromList(int listId) async {
+    final query = db.select(db.groceryItems).join([
+      innerJoin(
+        db.recipeItems,
+        db.recipeItems.groceryItemId.equalsExp(db.groceryItems.id),
+      ),
+    ])
+      ..where(db.recipeItems.recipeId.equals(listId));
+
+    final rows = await query.get();
+
+    final items = rows.map((row) {
+      final groceryItem = row.readTable(db.groceryItems);
+      return GroceryItemData(
+        id: groceryItem.id,
+        name: groceryItem.name,
+        price: groceryItem.price,
+        quantity: groceryItem.quantity,
+        storeName: groceryItem.storeName,
+      );
+    }).toList();
+
+    return items.toSet().toList();
+  }
+
   void deleteRecipeItem(int itemId) async {
     await (db.delete(db.recipeItems)
           ..where((item) => item.groceryItemId.equals(itemId)))
