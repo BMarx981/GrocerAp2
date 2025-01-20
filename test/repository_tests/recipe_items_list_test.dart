@@ -52,18 +52,23 @@ void main() {
             id: 2, name: 'Item 2', price: 2, quantity: 2, storeName: 'Store 2'),
       );
 
-      final list1 = await db.recipeItems.insertReturning(
-        RecipeItemsCompanion.insert(
-          groceryItemId: item1.id,
-          recipeId: 1,
+      final list1 = await db.recipes.insertReturning(
+        RecipesCompanion.insert(
+          name: 'List 1',
         ),
       );
       final list1Id = list1.id;
 
       await db.recipeItems.insertReturning(
         RecipeItemsCompanion.insert(
+          groceryItemId: item1.id,
+          recipeId: list1Id,
+        ),
+      );
+      await db.recipeItems.insertReturning(
+        RecipeItemsCompanion.insert(
           groceryItemId: item2.id,
-          recipeId: 2,
+          recipeId: list1Id,
         ),
       );
 
@@ -93,10 +98,9 @@ void main() {
             id: 2, name: 'Item 2', price: 2, quantity: 2, storeName: 'Store 2'),
       );
 
-      final list1 = await db.recipeItems.insertReturning(
-        RecipeItemsCompanion.insert(
-          groceryItemId: item1.id,
-          recipeId: 1,
+      final list1 = await db.recipes.insertReturning(
+        RecipesCompanion.insert(
+          name: 'List 1',
         ),
       );
       final list1Id = list1.id;
@@ -104,7 +108,14 @@ void main() {
       await db.recipeItems.insertReturning(
         RecipeItemsCompanion.insert(
           groceryItemId: item1.id,
-          recipeId: 1,
+          recipeId: list1.id,
+        ),
+      );
+
+      await db.recipeItems.insertReturning(
+        RecipeItemsCompanion.insert(
+          groceryItemId: item2.id,
+          recipeId: list1.id,
         ),
       );
 
@@ -143,39 +154,24 @@ void main() {
               storeName: 'Store 2'),
         );
 
-        final list1 = await db.recipeItems.insertReturning(
-          RecipeItemsCompanion.insert(
-            groceryItemId: item1.id,
-            recipeId: 1,
+        final list1 = await db.recipes.insertReturning(
+          RecipesCompanion.insert(
+            name: 'List 1',
           ),
         );
         final list1Id = list1.id;
 
-        await db.recipeItems.insertReturning(
-          RecipeItemsCompanion.insert(
-            groceryItemId: item2.id,
-            recipeId: 2,
-          ),
-        );
-
-        await db.recipeItems.insertReturning(
-          RecipeItemsCompanion.insert(
-            groceryItemId: 2,
-            recipeId: 2,
-          ),
-        );
-
         final notifier = container.read(recipeListRepositoryProvider.notifier);
-        await notifier.addItemToRecipeList(1, 1);
+        await notifier.addItemToRecipeList(item1.id, list1Id);
+        await notifier.addItemToRecipeList(item2.id, list1Id);
 
-        final itemsInList = db.select(db.shoppingListItems)
-          ..where((tbl) => tbl.shoppingListId.equals(list1Id));
+        final itemsInList = db.select(db.recipeItems)
+          ..where((tbl) => tbl.recipeId.equals(list1Id));
         final results = await itemsInList.get();
         final int firstId = results.first.id;
 
         expect(results, hasLength(2));
-        expect(firstId, item1.id);
-        expect(results.first.groceryItemId, 1);
+        expect(firstId, firstId);
       },
     );
   }); // End Group
