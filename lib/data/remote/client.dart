@@ -27,6 +27,7 @@ class ApiClient {
   }
 
   final _headers = {
+    "X-Mashape-Key": ApiConstants.apiKey,
     'Content-Type': 'application/json',
     'Accept': 'application/json',
   };

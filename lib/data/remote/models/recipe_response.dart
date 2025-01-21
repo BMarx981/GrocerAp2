@@ -1,5 +1,3 @@
-// lib/data/remote/models/recipe_response.dart
-
 import 'package:grocerapp/domain/models/recipe.dart';
 
 class RecipeResponse {

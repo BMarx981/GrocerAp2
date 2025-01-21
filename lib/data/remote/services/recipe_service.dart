@@ -2,7 +2,7 @@
 import 'dart:convert';
 import 'package:grocerapp/data/remote/client.dart';
 
-import '../models/recipe_response.dart';
+import 'package:grocerapp/data/remote/models/recipe_response.dart';
 
 class RecipeService {
   final ApiClient _apiClient;
@@ -31,7 +31,8 @@ class RecipeService {
       if (intolerances != null) 'intolerances': intolerances,
     };
 
-    final response = await _apiClient.get('/recipes/complexSearch', params: params);
+    final response =
+        await _apiClient.get('/recipes/complexSearch', params: params);
     final Map<String, dynamic> data = json.decode(response.body);
     return RecipeResponse.fromJson(data);
   }
