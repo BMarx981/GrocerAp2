@@ -5,14 +5,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grocerapp/presentation/common_widgets/textformfield_widget.dart';
 
 class TextfieldButton extends ConsumerWidget {
-  TextfieldButton(
+  const TextfieldButton(
       {super.key, required this.controller, required this.buttonText});
 
   /// The controller that the textfield uses to take text input.
-  TextEditingController controller;
+  final TextEditingController controller;
 
   /// The text for the button
-  String buttonText;
+  final String buttonText;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
