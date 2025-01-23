@@ -26,8 +26,28 @@ class ApiClient {
     }
   }
 
+  Future<http.Response> getRecipeIngredients(
+      String endpoint, String ingredientId,
+      {Map<String, String>? params}) async {
+    final baseUri =
+        'https://api.spoonacular.com/recipes/$ingredientId/information?includeNutrition=false';
+    final uri = Uri.parse(baseUri).replace(queryParameters: {
+      'apiKey': _apiKey,
+      if (params != null) ...params,
+    });
+
+    try {
+      final response = await _client.get(uri, headers: _headers);
+      _checkForErrors(response);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   final _headers = {
-    "X-Mashape-Key": ApiConstants.apiKey,
+    'X-Mashape-Key': ApiConstants.apiKey,
+    'X-Mashape-Host': 'mashape host',
     'Content-Type': 'application/json',
     'Accept': 'application/json',
   };
