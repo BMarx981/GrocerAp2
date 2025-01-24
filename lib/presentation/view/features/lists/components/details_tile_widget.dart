@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grocerapp/data/source/database/database.dart';
 import 'package:grocerapp/domain/repository/lists_repository.dart';
+import 'package:grocerapp/presentation/view/features/lists/add_items_page.dart';
 
 class DetailsTileWidget extends ConsumerWidget {
   const DetailsTileWidget({
@@ -32,8 +33,12 @@ class DetailsTileWidget extends ConsumerWidget {
         child: ListTile(
           iconColor: Colors.white,
           title: GestureDetector(
-            onTap: () => Beamer.of(context).beamToNamed('/add_items_to_list',
-                popToNamed: '/lists', data: data),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddItemsPage(listData: data),
+              ),
+            ),
             child: Text(
               data.name,
               style: const TextStyle(
