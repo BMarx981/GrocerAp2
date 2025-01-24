@@ -26,15 +26,11 @@ class App extends StatelessWidget {
     return ProviderScope(
       child: MaterialApp.router(
         title: 'GrocerApp',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.red.shade100),
-        ),
         routeInformationParser: BeamerParser(),
         routerDelegate: routerDelegate,
         backButtonDispatcher: BeamerBackButtonDispatcher(
           delegate: routerDelegate,
-          alwaysBeamBack: false,
-          fallbackToBeamBack: false,
+          alwaysBeamBack: true,
         ),
       ),
     );

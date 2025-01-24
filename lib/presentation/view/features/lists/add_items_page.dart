@@ -1,3 +1,4 @@
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grocerapp/data/source/database/database.dart';
@@ -12,7 +13,11 @@ class AddItemsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: GrocerAppbar(title: "Add Items to ${listData.name}"),
+      appBar: GrocerAppbar(
+        title: "Add Items to ${listData.name}",
+        showBackButton: true,
+        backButtonAction: () => Beamer.of(context).beamBack(),
+      ),
       body: Column(
         children: [
           const Padding(
